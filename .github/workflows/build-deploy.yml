@@ -14,7 +14,7 @@ jobs:
     - name: Login to CERIT Harbor registry
       uses: docker/login-action@v2
       with:
-        registry: ${{ secrets.HARBOR_URL }}
+        registry: hub.cerit.io
         username: ${{ secrets.HARBOR_USERNAME }}
         password: ${{ secrets.HARBOR_TOKEN }}
 
@@ -22,4 +22,4 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: scipion-portal/portal:latest
+        tags: hub.cerit.io/scipion-portal/portal:latest
