@@ -12,8 +12,6 @@ spec:
       labels:
         app: scipion-portal
     spec:
-      terminationGracePeriodSeconds: 180
-
       containers:
       - name: scipion-portal
         image: hub.cerit.io/scipion-portal/portal:latest
