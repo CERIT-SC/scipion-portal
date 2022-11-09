@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scipion-portal
+spec:
+  selector:
+    matchLabels:
+      app: scipion-portal
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: scipion-portal
+    spec:
+      terminationGracePeriodSeconds: 180
+      containers:
+      - name: scipion-portal
+        image: hub.cerit.io/scipion-portal/scipion-portal:latest
+        imagePullPolicy: Always
+        securityContext:
+          privileged: false
+          runAsUser: 1000
+          runAsGroup: 1000
+        ports:
+        - containerPort: 8080
+
