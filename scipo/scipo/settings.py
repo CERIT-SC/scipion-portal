@@ -86,6 +86,8 @@ AUTHENTICATION_BACKENDS = (
     'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
 )
 
+a = os.environ['OIDC_RP_CLIENT_ID']
+print(f'\"{a}\"')
 OIDC_RP_CLIENT_ID = os.environ['OIDC_RP_CLIENT_ID']
 OIDC_RP_CLIENT_SECRET = os.environ['OIDC_RP_CLIENT_SECRET']
 OIDC_OP_AUTHORIZATION_ENDPOINT = "https://aai-demo.egi.eu/auth/realms/egi/protocol/openid-connect/auth"
