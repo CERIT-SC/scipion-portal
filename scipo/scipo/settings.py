@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -86,12 +86,12 @@ AUTHENTICATION_BACKENDS = (
     'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
 )
 
-OIDC_RP_CLIENT_ID = os.environ.get('OIDC_RP_CLIENT_ID')
-OIDC_RP_CLIENT_SECRET = os.environ.get('OIDC_RP_CLIENT_SECRET')
+OIDC_RP_CLIENT_ID = os.environ['OIDC_RP_CLIENT_ID']
+OIDC_RP_CLIENT_SECRET = os.environ['OIDC_RP_CLIENT_SECRET']
 OIDC_OP_AUTHORIZATION_ENDPOINT = "https://aai-demo.egi.eu/auth/realms/egi/protocol/openid-connect/auth"
 OIDC_OP_TOKEN_ENDPOINT = "https://aai-demo.egi.eu/auth/realms/egi/protocol/openid-connect/token"
 OIDC_OP_USER_ENDPOINT = "https://aai-demo.egi.eu/auth/realms/egi/protocol/openid-connect/userinfo"
-LOGIN_REDIRECT_URL = "https://scipion.cerit-sc.cz"
+LOGIN_REDIRECT_URL = "https://scipion.cerit-sc.cz/oidc-callback"
 LOGOUT_REDIRECT_URL = "/"
 
 # Password validation
