@@ -21,5 +21,5 @@ from webapp import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('oidc/', include('mozilla_django_oidc.urls')),
-    path('oidc-callback/', views.oidc_callback, name='oidc-callback'),
+    path('oidc/callback/', views.oidc_callback, name='oidc-callback'),
 ]
