@@ -5,7 +5,7 @@ metadata:
   annotations:
     kuberentes.io/ingress.class: "nginx"
     kubernetes.io/tls-acme: "true"
-    cert-manager.io/cluster-issuer: "letsencrypt-stage"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   tls:
     - hosts:
