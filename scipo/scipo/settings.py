@@ -96,6 +96,9 @@ OIDC_OP_USER_ENDPOINT = "https://aai-demo.egi.eu/auth/realms/egi/protocol/openid
 LOGIN_REDIRECT_URL = "https://scipion.cerit-sc.cz/oidc/callback"
 LOGOUT_REDIRECT_URL = "https://scipion.cerit-sc.cz/oidc/callback"
 
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
