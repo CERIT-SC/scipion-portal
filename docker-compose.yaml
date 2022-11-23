@@ -1,0 +1,72 @@
+version: "3.3"
+
+volumes:
+    mariadb10:
+
+services:
+    traefik:
+        image: traefik:2.9
+        restart: unless-stopped
+        command:
+            - "--log.level=INFO"
+            - "--api.insecure=false"
+            - "--providers.docker=true"
+            - "--providers.docker.exposedbydefault=false"
+            - "--providers.file.directory=/configuration/"
+            - "--entrypoints.web.address=:80"
+            - "--entrypoints.websecure.address=:443"
+            # Redirection http to https for all services
+            - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+            - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+        restart: unless-stopped
+        ports:
+            - "80:80"
+            - "443:443"
+        #    - "8080:8080" # Traefik dashboard
+        volumes:
+            - "/var/run/docker.sock:/var/run/docker.sock:ro"
+            - "./traefik/certs-traefik.yaml:/configuration/certs-traefik.yaml:ro"
+            - "./traefik/certificates:/certs:ro"
+
+    db:
+        image: mariadb:10.10
+        restart: unless-stopped
+        volumes:
+            - mariadb10:/var/lib/mysql
+        environment:
+            MARIADB_USER: ""
+            MARIADB_PASSWORD: ""
+            MARIADB_ROOT_PASSWORD: ""
+
+    scipo:
+        #image: keras/scipion-portal:dev
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        restart: unless-stopped
+        depends_on:
+            - db
+            - traefik
+        expose:
+            - "80"
+        environment:
+            SECRET_KEY: ""
+            OIDC_RP_CLIENT_ID: ""
+            OIDC_RP_CLIENT_SECRET: ""
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.scipo.tls=true"
+            - "traefik.http.routers.scipo.rule=Host(`keras.ics.muni.cz`)"
+            - "traefik.http.routers.scipo.entrypoints=websecure"
+
+    adminer:
+        image: adminer
+        restart: unless-stopped
+        depends_on:
+            - db
+            - traefik
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.adminer.tls=true"
+            - "traefik.http.routers.adminer.rule=Host(`keras.ics.muni.cz`) && PathPrefix(`/adminer`)"
+            - "traefik.http.routers.adminer.entrypoints=websecure"

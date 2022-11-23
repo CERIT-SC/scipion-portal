@@ -25,6 +25,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+INTERNAL_IPS = ['147.251.59.199', '172.20.0.2']
 
 ALLOWED_HOSTS = ['*']
 
@@ -39,9 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
+    'web.apps.WebConfig',
+    'bootstrap4',
+    'debug_toolbar'
 ]
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -64,6 +70,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                #'django.template.context_processors.static',
             ],
         },
     },
@@ -77,8 +84,11 @@ WSGI_APPLICATION = 'scipo.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': 'db',
+        'NAME': 'scipo',
+        'USER': os.environ['MYSQL_USER'],
+        'PASSWORD': os.environ['MYSQL_PASSWORD'],
     }
 }
 
@@ -95,6 +105,8 @@ OIDC_OP_TOKEN_ENDPOINT = "https://aai-demo.egi.eu/auth/realms/egi/protocol/openi
 OIDC_OP_USER_ENDPOINT = "https://aai-demo.egi.eu/auth/realms/egi/protocol/openid-connect/userinfo"
 LOGIN_REDIRECT_URL = "https://scipion.cerit-sc.cz/oidc/callback"
 LOGOUT_REDIRECT_URL = "https://scipion.cerit-sc.cz/oidc/callback"
+OIDC_STORE_ID_TOKEN = True
+OIDC_STORE_ACCESS_TOKEN = True
 
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -134,6 +146,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

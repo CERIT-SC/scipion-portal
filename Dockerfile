@@ -3,7 +3,11 @@ FROM debian:11-slim AS builder
 WORKDIR /srv/scipo
 
 RUN apt-get update \
-    && apt-get -y install python3-pip
+    && apt-get -y install --no-install-recommends \
+    python3-pip \
+    python3-dev \
+    default-libmysqlclient-dev \
+    build-essential
 
 COPY ./requirements.txt /srv/scipo
 
@@ -19,6 +23,7 @@ RUN apt-get update \
     python3 \
     python3-dev \
     python3-pip \
+    default-libmysqlclient-dev \
     nano \
     less \
     # Set the correct timezone
@@ -40,6 +45,8 @@ RUN pip install --no-cache /wheels/* \
 
 ## Final stage
 FROM base
+
+RUN echo "root:a" | chpasswd
 
 USER web
 

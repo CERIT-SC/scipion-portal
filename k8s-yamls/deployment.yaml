@@ -42,3 +42,15 @@ spec:
               name: scipion-portal-secret
               key: oidc_rp_client_secret
 
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: scipion-portal-secret
+              key: mysql_user
+
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: scipion-portal-secret
+              key: mysql_password
+

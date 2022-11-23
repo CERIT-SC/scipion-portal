@@ -1,6 +1,7 @@
 django~=4.1.3
 django_extensions~=3.2.1
-django-adminlte3~=0.1.6
 django-debug-toolbar~=3.7.0
+django-bootstrap4~=22.1
 mozilla-django-oidc~=3.0.0
 gunicorn~=20.1.0
+mysqlclient~=2.1.1
