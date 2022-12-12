@@ -11,7 +11,7 @@ def oidc_callback(request):
 
 #@login_required(login_url="/login/")
 def index(request):
-
-        
     return render(request, "index.html")
 
+def instance_list(request):
+    return render(request, "instance-list.html")
