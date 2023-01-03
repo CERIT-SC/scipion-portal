@@ -13,5 +13,10 @@ def oidc_callback(request):
 def index(request):
     return render(request, "index.html")
 
+@login_required(login_url="/oidc/authenticate/")
 def instance_list(request):
     return render(request, "instance-list.html")
+
+@login_required(login_url="/oidc/authenticate/")
+def dataset_list(request):
+    return render(request, "dataset-list.html")

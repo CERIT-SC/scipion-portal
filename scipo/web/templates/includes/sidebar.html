@@ -12,32 +12,46 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
-      {% if user.is_authenticated %}
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <i class="custom-user-img-green fas fa-user"></i>
+      <div class="user-panel mt-3 pb-3 mb-3">
+        {% if user.is_authenticated %}
+        <div class="d-flex">
+          <div class="image">
+            <i class="custom-user-img-green fas fa-user"></i>
+          </div>
+          <div class="info">
+            {{ user.email }}
+          </div>
         </div>
-        <div class="info">
-          <a class="d-block">
-            {{ user.email }} - Logout
-          </a>
+        <!--
+        <div>
+          <form action="{% url 'oidc_logout' %}" method="post">
+            {% csrf_token %}
+            <input class="btn btn-danger" type="submit" value="Logout">
+          </form>
         </div>
-      </div>
-      {% else %}
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <i class="custom-user-img-gray fas fa-user"></i>
+        -->
+        {% else %}
+        <div class="d-flex">
+          <div class="image">
+            <i class="custom-user-img-gray fas fa-user"></i>
+          </div>
+          <div class="info">
+            Not logged in
+          </div>
         </div>
-        <div class="info">
+        <!--
+        <div>
           <a class="d-block" href="{% url 'oidc_authentication_init' %}">
             Login
           </a>
         </div>
+        -->
+        {% endif %}
       </div>
-      {% endif %}
 
 
       <!-- SidebarSearch Form -->
+      {% if user.is_authenticated %}
       <div class="form-inline">
         <div class="input-group" data-widget="sidebar-search">
           <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
@@ -48,6 +62,7 @@
           </div>
         </div>
       </div>
+      {% endif %}
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
@@ -57,12 +72,14 @@
 
           <li class="nav-item">
             <a href="/" class="nav-link">
-              <i class="nav-icon fas fa-chart-pie"></i>
+              <i class="nav-icon fas fa-home"></i>
               <p>
-                Dashboard
+                Home
               </p>
             </a>
           </li>
+
+          {% if user.is_authenticated %}
 
           <li class="nav-item">
             <a href="/instance-list" class="nav-link">
@@ -72,6 +89,17 @@
               </p>
             </a>
           </li>
+
+          <li class="nav-item">
+            <a href="/dataset-list" class="nav-link">
+              <i class="nav-icon fas fa-database"></i>
+              <p>
+                Datasets
+              </p>
+            </a>
+          </li>
+
+          {% endif %}
 
           <li class="nav-header">External Services</li>
 

@@ -41,12 +41,11 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Dashboard</h1>
+            <h1 class="m-0 text-dark">Home</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="/">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard</li>
+              <li class="breadcrumb-item active"><a href="/">Home</a></li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -56,33 +55,57 @@
 
     <!-- Main content -->
     <section class="content">
-      {% if user.is_authenticated %}
-        <p>Current user: {{ user.email }}</p>
-        <form action="{% url 'oidc_logout' %}" method="post">
-          {% csrf_token %}
-          <input class="btn btn-danger" type="submit" value="Logout">
-        </form>
-      {% else %}
-        <a class="btn btn-primary" href="{% url 'oidc_authentication_init' %}">Login</a>
-      {% endif %}
-      <br /><br />
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
 
-      <div class="card">
-          <div class="card-header">
-              <h3 class="card-title">
+            <div class="callout callout-info info-section-box">
+              <i class="info-section-i fas fa-info"></i>
+              <div>
+                <p>Welcome to the Scipion Portal. This portal allows you to deploy your own instance of the Scipion application from the world of Cryo-EM in the cloud environment of the CERIT-SC infrastructure. The solution uses EGI AAI for authentication. Let's start with the <b>Login</b> button.</p>
+              </div>
+            </div>
+
+            {% if user.is_authenticated %}
+            <!--<p>Current user: {{ user.email }}</p>-->
+            <form action="{% url 'oidc_logout' %}" method="post">
+              {% csrf_token %}
+              <input class="btn btn-danger" type="submit" value="Logout">
+            </form>
+            {% else %}
+            <a class="btn btn-primary" href="{% url 'oidc_authentication_init' %}">Login</a>
+            {% endif %}
+            <br /><br />
+
+            <div class="callout callout-info info-section-box">
+              <i class="info-section-i fas fa-info"></i>
+              <div>
+                <p>After successful login, you should see the <b>Instances</b> and the <b>Datasets</b> sections in the left navigation menu. In the <b>Instances</b> section, you can see and manage your running instances of the Scipion application or start a new one.</p>
+                <p>The solution uses Onedata project and related portal <b>Datahub EGI</b> to access and store data. The <b>Datasets</b> section displays all of the datasets from the <b>Datahub EGI</b> that are available to you (to which you are authorized).</p>
+              </div>
+            </div>
+
+            <!--
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">
                   <i class="fas fa-chart-pie mr-1"></i>
                   Tokens
-              </h3>
-          </div><!-- /.card-header -->
-          <div class="card-body">
-              OIDC ID token: <br />
-              {{ request.session.oidc_id_token }}<br /><br />
-        
-              OIDC Access token: <br />
-              {{ request.session.oidc_access_token }}<br /><br />
-          </div><!-- /.card-body -->
-      </div>
+                </h3>
+              </div>
+              <div class="card-body">
+                  OIDC ID token: <br />
+                  {{ request.session.oidc_id_token }}<br /><br />
 
+                  OIDC Access token: <br />
+                  {{ request.session.oidc_access_token }}<br /><br />
+              </div>
+            </div>
+            -->
+
+          </div>
+        </div>
+      </div>
      
     </section>
     <!-- /.content -->
