@@ -1,13 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: scipion-portal-svc
+  name: scipion-portal-svc-scipo
 spec:
   type: ClusterIP
   ports:
-  - name: scipion-portal-port
+  - name: scipion-portal-port-scipo
     port: 80
     targetPort: 8080
   selector:
-    app: scipion-portal
-
+    app: scipion-portal-scipo
