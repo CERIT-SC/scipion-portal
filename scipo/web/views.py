@@ -13,6 +13,12 @@ def oidc_callback(request):
 def index(request):
     return render(request, "index.html")
 
+def privacy_policy(request):
+    return render(request, "privacy-policy.html")
+
+def terms_of_use(request):
+    return render(request, "terms-of-use.html")
+
 @login_required(login_url="/oidc/authenticate/")
 def instance_list(request):
     return render(request, "instance-list.html")
