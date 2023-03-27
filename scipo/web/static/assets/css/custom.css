@@ -1,0 +1,24 @@
+
+.custom-user-img-gray {
+    font-size: 2.1rem;
+    color: #c2c7d0
+}
+
+.custom-user-img-green {
+    font-size: 2.1rem;
+    color: #72B958
+}
+
+.info-section-box {
+    display: flex;
+}
+
+.info-section-i {
+    font-size: 1.2rem;
+    margin-right: 1rem;
+    color: #343a40;
+}
+
+.user-panel .info {
+    color: #c2c7d0;
+}

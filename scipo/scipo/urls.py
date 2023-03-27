@@ -20,6 +20,11 @@ from web import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('instance-list/', views.instance_list, name='instance-list'),
+    path('dataset-list/', views.dataset_list, name='dataset-list'),
+
+    path('privacy-policy/', views.privacy_policy, name='privacy-policy'),
+    path('terms-of-use/', views.terms_of_use, name='terms-of-use'),
 
     path('admin/', admin.site.urls),
     path('oidc/', include('mozilla_django_oidc.urls')),

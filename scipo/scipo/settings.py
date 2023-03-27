@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'scipo.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'HOST': 'db',
+        'HOST': 'scipion-portal-svc-db',
         'NAME': 'scipo',
         'USER': os.environ['MYSQL_USER'],
         'PASSWORD': os.environ['MYSQL_PASSWORD'],
@@ -104,7 +104,9 @@ OIDC_OP_AUTHORIZATION_ENDPOINT = "https://aai-demo.egi.eu/auth/realms/egi/protoc
 OIDC_OP_TOKEN_ENDPOINT = "https://aai-demo.egi.eu/auth/realms/egi/protocol/openid-connect/token"
 OIDC_OP_USER_ENDPOINT = "https://aai-demo.egi.eu/auth/realms/egi/protocol/openid-connect/userinfo"
 LOGIN_REDIRECT_URL = "https://scipion.cerit-sc.cz/oidc/callback"
+#LOGIN_REDIRECT_URL = "https://keras.ics.muni.cz/oidc/callback"
 LOGOUT_REDIRECT_URL = "https://scipion.cerit-sc.cz/oidc/callback"
+#LOGOUT_REDIRECT_URL = "https://keras.ics.muni.cz/oidc/callback"
 OIDC_STORE_ID_TOKEN = True
 OIDC_STORE_ACCESS_TOKEN = True
 

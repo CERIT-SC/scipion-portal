@@ -1,10 +1,10 @@
 {% extends "layouts/base.html" %}
 {% load static %}
 
-{% block title %} Dashboard {% endblock %} 
+{% block title %} Dashboard {% endblock %}
 
 <!-- Element injected in the BODY element -->
-{% block body_class %} sidebar-mini {% endblock body_class %} 
+{% block body_class %} sidebar-mini {% endblock body_class %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
@@ -33,7 +33,7 @@
 {% endblock stylesheets %}
 
 {% block content %}
-  
+
   <div class="content-wrapper">
 
     <!-- Content Header (Page header) -->
@@ -41,11 +41,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Home</h1>
+            <h1 class="m-0 text-dark">Scipion Portal Acceptable Use Policy and Conditions of Use (AUP)</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item active"><a href="/">Home</a></li>
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active">Terms of use</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -59,54 +60,83 @@
         <div class="row">
           <div class="col-12">
 
-            <div class="callout callout-info info-section-box">
-              <i class="info-section-i fas fa-info"></i>
-              <div>
-                <p>Welcome to the Scipion Portal. This portal allows you to deploy your own instance of the Scipion application from the world of Cryo-EM in the cloud environment of the CERIT-SC infrastructure. The solution uses EGI AAI for authentication. Let's start with the <b>Login</b> button.</p>
-              </div>
-            </div>
-
-            {% if user.is_authenticated %}
-            <!--<p>Current user: {{ user.email }}</p>-->
-            <form action="{% url 'oidc_logout' %}" method="post">
-              {% csrf_token %}
-              <input class="btn btn-danger" type="submit" value="Logout">
-            </form>
-            {% else %}
-            <a class="btn btn-primary" href="{% url 'oidc_authentication_init' %}">Login</a>
-            {% endif %}
-            <br /><br />
-
-            <div class="callout callout-info info-section-box">
-              <i class="info-section-i fas fa-info"></i>
-              <div>
-                <p>After successful login, you should see the <b>Instances</b> and the <b>Datasets</b> sections in the left navigation menu. In the <b>Instances</b> section, you can see and manage your running instances of the Scipion application or start a new one.</p>
-                <p>The solution uses Onedata project and related portal <b>Datahub EGI</b> to access and store data. The <b>Datasets</b> section displays all of the datasets from the <b>Datahub EGI</b> that are available to you (to which you are authorized).</p>
-              </div>
-            </div>
-
-            <!--
             <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">
-                  <i class="fas fa-chart-pie mr-1"></i>
-                  Tokens
-                </h3>
-              </div>
               <div class="card-body">
-                  OIDC ID token: <br />
-                  {{ request.session.oidc_id_token }}<br /><br />
+                <p>
+                  This Acceptable Use Policy and Conditions of Use ("AUP") defines the
+                  rules and conditions that govern your access to and use (including
+                  transmission, processing, and storage of data) of the resources and
+                  services ("Services") as granted by the Masaryk University, and the Virtual
+                  Organisation to which you belong, for the purpose of meeting the goals
+                  of Masaryk University, namely to deliver advanced computing services to support
+                  researchers, multinational projects and research infrastructures, and
+                  the goals of your Virtual Organisation or Research Community.
+                </p>
+                <ol>
+                  <li>
+                    You shall only use the Services in a manner consistent with the
+                    purposes and limitations described above; you shall show consideration
+                    towards other users including by not causing harm to the Services; you
+                    have an obligation to collaborate in the resolution of issues arising
+                    from your use of the Services.
+                  </li>
+                  <li>
+                    You shall only use the Services for lawful purposes and not breach,
+                    attempt to breach, nor circumvent administrative or security controls.
+                  </li>
+                  <li>
+                    You shall respect intellectual property and confidentiality
+                    agreements.
+                  </li>
+                  <li>
+                    You shall protect your access credentials (e.g. passwords, private
+                    keys or multi-factor tokens); no intentional sharing is permitted.
+                  </li>
+                  <li>
+                    You shall keep your registered information correct and up to date.
+                  </li>
+                  <li>
+                    You shall promptly report known or suspected security breaches,
+                    credential compromise, or misuse to the security contact stated below;
+                    and report any compromised credentials to the relevant issuing
+                    authorities.
+                  </li>
+                  <li>
+                    Reliance on the Services shall only be to the extent specified by any
+                    applicable service level agreements listed below. Use without such
+                    agreements is at your own risk.
+                  </li>
+                  <li>
+                    Your personal data will be processed in accordance with the privacy
+                    statements referenced below.
+                  </li>
+                  <li>
+                    Your use of the Services may be restricted or suspended, for
+                    administrative, operational, or security reasons, without prior notice
+                    and without compensation.
+                  </li>
+                  <li>
+                    If you violate these rules, you may be liable for the consequences,
+                    which may include your account being suspended and a report being made
+                    to your home organisation or to law enforcement.
+                  </li>
+                </ol>
 
-                  OIDC Access token: <br />
-                  {{ request.session.oidc_access_token }}<br /><br />
+                <p>
+                  The administrative contact for this AUP is:
+                  <a href="mailto:svoboda@ics.muni.cz">svoboda@ics.muni.cz</a><br>
+                  The security contact for this AUP is:
+                  <a href="mailto:abuse@muni.cz">abuse@muni.cz</a><br>
+                  The privacy policy (e.g. Privacy Notice) is located at
+                  <a href="/privacy-policy">Privacy Policy</a><br>
+                </p>
               </div>
             </div>
-            -->
 
           </div>
         </div>
       </div>
-     
+
     </section>
     <!-- /.content -->
 
