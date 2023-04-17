@@ -97,12 +97,12 @@ AUTHENTICATION_BACKENDS = (
 )
 
 OIDC_RP_SIGN_ALGO = 'RS256'
-OIDC_OP_JWKS_ENDPOINT = 'https://aai-demo.egi.eu/auth/realms/egi/protocol/openid-connect/certs'
+OIDC_OP_JWKS_ENDPOINT = 'https://aai.egi.eu/auth/realms/egi/protocol/openid-connect/certs'
 OIDC_RP_CLIENT_ID = os.environ['OIDC_RP_CLIENT_ID']
 OIDC_RP_CLIENT_SECRET = os.environ['OIDC_RP_CLIENT_SECRET']
-OIDC_OP_AUTHORIZATION_ENDPOINT = "https://aai-demo.egi.eu/auth/realms/egi/protocol/openid-connect/auth"
-OIDC_OP_TOKEN_ENDPOINT = "https://aai-demo.egi.eu/auth/realms/egi/protocol/openid-connect/token"
-OIDC_OP_USER_ENDPOINT = "https://aai-demo.egi.eu/auth/realms/egi/protocol/openid-connect/userinfo"
+OIDC_OP_AUTHORIZATION_ENDPOINT = "https://aai.egi.eu/auth/realms/egi/protocol/openid-connect/auth"
+OIDC_OP_TOKEN_ENDPOINT = "https://aai.egi.eu/auth/realms/egi/protocol/openid-connect/token"
+OIDC_OP_USER_ENDPOINT = "https://aai.egi.eu/auth/realms/egi/protocol/openid-connect/userinfo"
 LOGIN_REDIRECT_URL = "https://scipion.cerit-sc.cz/oidc/callback"
 #LOGIN_REDIRECT_URL = "https://keras.ics.muni.cz/oidc/callback"
 LOGOUT_REDIRECT_URL = "https://scipion.cerit-sc.cz/oidc/callback"
