@@ -4,3 +4,8 @@ instance:
   maxcpu: 4
   minram: 1024Mi
   maxram: 1024Mi
+
+oidc:
+  provider_base_url: "https://aai.egi.eu/auth/realms/egi/protocol/openid-connect"
+  redirect_url: "https://scipion.cerit-sc.cz/oidc/callback"
+#  redirect_url: "https://keras.ics.muni.cz/oidc/callback"

@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: scipion-portal-svc-scipo
 spec:
+  selector:
+    app: scipion-portal-scipo
   type: ClusterIP
   ports:
   - name: scipion-portal-port-scipo
     port: 80
     targetPort: 8080
-  selector:
-    app: scipion-portal-scipo

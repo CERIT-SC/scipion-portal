@@ -42,7 +42,7 @@ spec:
       containers:
 
       - name: scipo
-        image: hub.cerit.io/scipion-portal/portal:dev
+        image: hub.cerit.io/scipion-portal/portal:latest
         imagePullPolicy: Always
         securityContext:
           privileged: false
@@ -60,11 +60,10 @@ spec:
 
         env:
         - name: OIDC_REDIRECT_URL
-#          value: "https://scipion.cerit-sc.cz/oidc/callback"
-          value: "https://keras.ics.muni.cz/oidc/callback"
+          value: {{ .Values.oidc.redirect_url | quote }}
 
         - name: OIDC_OP_BASE_URL
-          value: "https://aai.egi.eu/auth/realms/egi/protocol/openid-connect"
+          value: {{ .Values.oidc.provider_base_url | quote }}
 
         - name: SECRET_KEY
           valueFrom:
