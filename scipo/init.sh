@@ -2,6 +2,8 @@
 set -xe
 
 cd /srv/scipo
+
+# Collects the static files into STATIC_ROOT.
 python3 manage.py collectstatic
 
 # init required data in the database
