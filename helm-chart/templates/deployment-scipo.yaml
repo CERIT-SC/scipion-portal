@@ -13,24 +13,41 @@ spec:
         app: scipion-portal-scipo
     spec:
 
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+
       initContainers:
 
       - name: init-db-wait
         image: busybox
         imagePullPolicy: Always
+
         securityContext:
           privileged: false
           runAsUser: 1000
           runAsGroup: 1000
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+
         command: ['sh', '-c', 'echo -e "Checking for the availability of MySQL Server deployment"; while ! nc -z scipion-portal-svc-db 3306; do sleep 1; printf "-"; done; echo -e "  >> MySQL DB Server has started";']
 
       - name: init-db-init
         image: mysql
         imagePullPolicy: Always
+
         securityContext:
           privileged: false
           runAsUser: 1000
           runAsGroup: 1000
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+
         command: ['sh', '-c', 'mysql --host="scipion-portal-svc-db" --user root --password="$MYSQL_ROOT_PASSWORD" --execute="CREATE DATABASE IF NOT EXISTS scipo; GRANT ALL ON scipo.* TO dbuser@;"']
         env:
         - name: MYSQL_ROOT_PASSWORD
@@ -39,15 +56,22 @@ spec:
               name: scipion-portal-secret
               key: mysql_root_password
 
+
       containers:
 
       - name: scipo
         image: hub.cerit.io/scipion-portal/portal:latest
         imagePullPolicy: Always
+
         securityContext:
           privileged: false
           runAsUser: 1000
           runAsGroup: 1000
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+
         ports:
         - containerPort: 8080
         resources:

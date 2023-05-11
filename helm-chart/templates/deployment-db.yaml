@@ -12,14 +12,26 @@ spec:
       labels:
         app: scipion-portal-db
     spec:
+
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+
       containers:
       - name: db
         image: mariadb:10.10
         imagePullPolicy: Always
+
         securityContext:
           privileged: false
           runAsUser: 1000
           runAsGroup: 1000
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+
         ports:
         - containerPort: 3306
         volumeMounts:
