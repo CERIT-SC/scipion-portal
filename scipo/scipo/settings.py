@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 INTERNAL_IPS = ['147.251.59.199', '172.20.0.2']
 
 ALLOWED_HOSTS = ['*']

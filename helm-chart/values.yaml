@@ -9,3 +9,9 @@ oidc:
   provider_base_url: "https://aai.egi.eu/auth/realms/egi/protocol/openid-connect"
   redirect_url: "https://scipion.cerit-sc.cz/oidc/callback"
 #  redirect_url: "https://keras.ics.muni.cz/oidc/callback"
+
+ingress:
+  host: "scipion.cerit-sc.cz"
+#  host: "keras.ics.muni.cz"
+  secretName: "scipion-cerit-sc-cz-tls"
+#  secretName: keras-ics-muni-cz-tls

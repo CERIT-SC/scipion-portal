@@ -9,10 +9,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - "scipion.cerit-sc.cz"
-      secretName: scipion-cerit-sc-cz-tls
+        - {{ .Values.ingress.host }}
+      secretName: {{ .Values.ingress.secretName }}
   rules:
-  - host: "scipion.cerit-sc.cz"
+  - host: {{ .Values.ingress.host }}
     http:
       paths:
       - backend:
@@ -21,4 +21,3 @@ spec:
             port:
               number: 80
         pathType: ImplementationSpecific
-

@@ -60,7 +60,7 @@ spec:
       containers:
 
       - name: scipo
-        image: hub.cerit.io/scipion-portal/portal:latest
+        image: hub.cerit.io/scipion-portal/portal:dev
         imagePullPolicy: Always
 
         securityContext:
