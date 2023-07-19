@@ -101,6 +101,7 @@ OIDC_RP_SIGN_ALGO = 'RS256'
 OIDC_OP_JWKS_ENDPOINT = f'{os.environ["OIDC_OP_BASE_URL"]}/certs'
 OIDC_RP_CLIENT_ID = os.environ['OIDC_RP_CLIENT_ID']
 OIDC_RP_CLIENT_SECRET = os.environ['OIDC_RP_CLIENT_SECRET']
+OIDC_RP_SCOPES = 'openid email profile eduperson_entitlement'
 OIDC_OP_AUTHORIZATION_ENDPOINT = f'{os.environ["OIDC_OP_BASE_URL"]}/auth'
 OIDC_OP_TOKEN_ENDPOINT = f'{os.environ["OIDC_OP_BASE_URL"]}/token'
 OIDC_OP_USER_ENDPOINT = f'{os.environ["OIDC_OP_BASE_URL"]}/userinfo'
