@@ -1,4 +1,6 @@
 
 from .kubernetes import Kubectl, KubeSaAutoConfig
+from .helm import Helmctl
 
-kubectl = Kubectl(KubeSaAutoConfig(), 'scipion-portal-ns')
+kubectl = Kubectl(KubeSaAutoConfig())
+helmctl = Helmctl()

@@ -25,25 +25,32 @@ class KubeSaAutoConfig(client.configuration.Configuration):
         self.ssl_ca_cert = "/run/secrets/kubernetes.io/serviceaccount/ca.crt"
 
 class Kubectl:
-    def __init__(self, config, namespace):
+    def __init__(self, config):
         self.config = config
-        self.namespace = namespace
 
-        self.api_apps = client.AppsV1Api(client.ApiClient(config))
-        self.api_batch = client.BatchV1Api(client.ApiClient(config))
+        # set Scipion Portal's namespace identification
+        # the IDs are required when creating child namespaces to avoid losing control of the child namespaces
+        self.ns_name = f"{os.environ['KUBERNETES_NS_NAME']}"
+        self.ns_id_label = f"{os.environ['KUBERNETES_NS_ID_LABEL']}"
+        self.ns_id_annotation = f"{os.environ['KUBERNETES_NS_ID_ANNOTATION']}"
+
+        with client.ApiClient(config) as api_client:
+            self.api_apps = client.AppsV1Api(api_client)
+            self.api_batch = client.BatchV1Api(api_client)
+            self.api_core = client.CoreV1Api(api_client)
 
         # test namespace
-        self.api_apps.list_namespaced_deployment(self.namespace)
+        self.api_apps.list_namespaced_deployment(self.ns_name)
 
     def _get_x_name(self, x_name):
         return f"{self.instance_prefix}-{self.instance_name}-{x_name}"
 
     def _list_deployments(self):
-        items = self.api_apps.list_namespaced_deployment(self.namespace).items
+        items = self.api_apps.list_namespaced_deployment(self.ns_name).items
         return list(map(lambda deployment: deployment.metadata.name, items))
 
     def _list_jobs(self):
-        items = self.api_batch.list_namespaced_job(self.namespace).items
+        items = self.api_batch.list_namespaced_job(self.ns_name).items
         return list(map(lambda job: job.metadata.name, items))
 
     #def filter_main(self, include_controller = True):

@@ -1,4 +1,5 @@
 
+import os
 import logging
 import subprocess
 
@@ -6,10 +7,11 @@ import subprocess
 logger = logging.getLogger('django')
 
 class Helmctl:
-    @staticmethod
-    def _execute_command(cmd):
-        base = 'helm --output json'
-        cmd_full = f'{base} {cmd}'
+    def __init__(self) -> None:
+        self.ns_name = f"{os.environ['KUBERNETES_NS_NAME']}"
+
+    def _execute_command(self, cmd):
+        cmd_full = f'helm --output json -n {self.ns_name} {cmd}'
 
         # convert str to List[str]
         cmd_list = list()
@@ -29,15 +31,12 @@ class Helmctl:
 
         return result
 
-    @staticmethod
-    def list():
-        result = Helmctl._execute_command('list')
+    def list(self):
+        result = self._execute_command('list')
         return str(result)
 
-    @staticmethod
-    def install():
+    def install(self):
         logger.error("not implemented")
 
-    @staticmethod
-    def uninstall():
+    def uninstall(self):
         logger.error("not implemented")
