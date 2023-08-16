@@ -25,7 +25,7 @@ class Datahub:
 
     @staticmethod
     def list_spaces(oidc_token):
-        return Datahub._make_request(f'/api/v3/onezone/user/spaces', oidc_token)
+        return Datahub._make_request(f'/api/v3/onezone/user/effective_spaces', oidc_token)
 
     @staticmethod
     def get_space(oidc_token, space_id):
