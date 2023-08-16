@@ -15,3 +15,7 @@ ingress:
 #  host: "keras.ics.muni.cz"
   secretName: "scipion-cerit-sc-cz-tls"
 #  secretName: keras-ics-muni-cz-tls
+
+k8s:
+  ns_id_label: ""
+  ns_id_annotation: ""
