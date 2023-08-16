@@ -90,6 +90,18 @@ spec:
         - name: OIDC_OP_BASE_URL
           value: {{ .Values.oidc.provider_base_url | quote }}
 
+        # custom variables with identification of the Scipion Portal's namespace
+        - name: KUBERNETES_NS_NAME
+          value: {{ .Release.Namespace | quote }}
+
+        # custom variables with identification of the Scipion Portal's namespace
+        - name: KUBERNETES_NS_ID_LABEL
+          value: {{ .Values.k8s.ns_id_label | quote }}
+
+        # custom variables with identification of the Scipion Portal's namespace
+        - name: KUBERNETES_NS_ID_ANNOTATION
+          value: {{ .Values.k8s.ns_id_annotation | quote }}
+
         - name: SECRET_KEY
           valueFrom:
             secretKeyRef:

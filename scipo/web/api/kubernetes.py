@@ -1,6 +1,7 @@
 
 import logging
 import os
+import hashlib
 
 from kubernetes import client, config
 
@@ -42,8 +43,12 @@ class Kubectl:
         # test namespace
         self.api_apps.list_namespaced_deployment(self.ns_name)
 
-    def _get_x_name(self, x_name):
+    def _get_pod_name(self, x_name):
         return f"{self.instance_prefix}-{self.instance_name}-{x_name}"
+
+    def _get_child_ns_name(self, username):
+        username_hash = hashlib.sha1(bytes(username, 'utf-8')).hexdigest()[0:8]
+        return f"scipo-{username_hash}-ns"
 
     def _list_deployments(self):
         items = self.api_apps.list_namespaced_deployment(self.ns_name).items
@@ -72,8 +77,21 @@ class Kubectl:
                 result.append(j)
         return result
 
-    def create_namespace(self):
+    def create_namespace(self, username):
+        ns_name = self._get_child_ns_name(username)
+        namespace = client.V1Namespace(
+            api_version="v1",
+            kind="Namespace",
+            metadata=client.V1ObjectMeta(
+                name=ns_name,
+                labels={"field.cattle.io/projectId": self.ns_id_label},
+                annotations={"field.cattle.io/projectId": self.ns_id_annotation}
+            )
+        )
+        self.api_core.create_namespace(namespace)
+
         logger.error("not implemented")
 
-    def delete_namespace(self):
+    def delete_namespace(self, username):
+        ns_name = self._get_child_ns_name(username)
         logger.error("not implemented")
