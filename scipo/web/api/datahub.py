@@ -15,6 +15,7 @@ class Datahub:
 
         data = ''
         error = ''
+
         if response.status_code != 200:
             error = f'Error, code: {response.status_code}, text: {response.text}'
         else:

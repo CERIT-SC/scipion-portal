@@ -29,11 +29,24 @@ class Helmctl:
             logger.error(ex)
             return None
 
-        return result
+        if result.returncode != 0:
+            logger.error(f'Command returned non-zero code. Code: {result.returncode}, stderr: \"{result.stderr}\".')
+            return None
+
+        return str(result.stdout)
 
     def list(self):
-        result = self._execute_command('list')
-        return str(result)
+        cmd_result = self._execute_command('list')
+
+        data = ''
+        error = ''
+
+        if not cmd_result:
+            error = 'Getting list of your running instances failed'
+            return (data, error)
+
+        data = cmd_result
+        return (data, error)
 
     def install(self):
         logger.error("not implemented")
