@@ -21,6 +21,7 @@ from web import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('instance-list/', views.instance_list, name='instance-list'),
+    path('project-list/', views.project_list, name='project-list'),
     path('dataset-list/', views.dataset_list, name='dataset-list'),
 
     path('privacy-policy/', views.privacy_policy, name='privacy-policy'),
