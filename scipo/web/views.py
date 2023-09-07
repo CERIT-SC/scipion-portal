@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render
 from django.http import HttpResponse
 from django import template
@@ -111,4 +113,5 @@ def api_spaces(request):
     result = """
     {"total": 4, "totalNotFiltered": 55, "rows": [{"space_id": "vf08945d3", "name": "5203B", "project": "BALKAN", "subject": "WICK11550 John", "subject__space_id": "s90e46f7f", "subject__birth_date": "1991-01-01", "date": "2022-06-17", "subject__personal_ID": "9101010000", "subject_intials": "J.W.1991", "subject__gender": "F", "subject__handedness": "ns", "subject_age": 31, "comment": "ich", "quality_check": "NOT_OK", "number_of_sessions": 1, "checked": "un"}, {"space_id": "v127bc1ed", "name": "5204B", "project": "BALKAN", "subject": "WICK11550 John", "subject__space_id": "s90e46f7f", "subject__birth_date": "1991-01-01", "date": "2022-06-17", "subject__personal_ID": "9101010000", "subject_intials": "J.W.1991", "subject__gender": "F", "subject__handedness": "ns", "subject_age": 31, "comment": "", "quality_check": "NOT_OK", "number_of_sessions": 1, "checked": "un"}, {"space_id": "v98c295c2", "name": "test123", "project": "test", "subject": "WICK11550 John", "subject__space_id": "s90e46f7f", "subject__birth_date": "1991-01-01", "date": "2022-05-18", "subject__personal_ID": "9101010000", "subject_intials": "J.W.1991", "subject__gender": "F", "subject__handedness": "ns", "subject_age": 31, "comment": "aaa", "quality_check": "NOT_OK", "number_of_sessions": 1, "checked": "un"}, {"space_id": "vce5aec8d", "name": "763A", "project": "HealthBrainAge (HBA)", "subject": "WICK11550 John", "subject__space_id": "s90e46f7f", "subject__birth_date": "1991-01-01", "date": "2021-08-13", "subject__personal_ID": "9101010000", "subject_intials": "J.W.1991", "subject__gender": "F", "subject__handedness": "ns", "subject_age": 30, "comment": "", "quality_check": "NOT_OK", "number_of_sessions": 1, "checked": "un"}]}
     """
-    return JsonResponse(result)
+    j = json.loads(result)
+    return JsonResponse(j, safe=False)
