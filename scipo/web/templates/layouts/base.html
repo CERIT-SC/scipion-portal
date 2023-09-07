@@ -11,6 +11,13 @@
     Scipion Portal - {% block title %}{% endblock %}
   </title> 
 
+  {% block javascript %}
+      <script type='text/javascript' src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
+      <script type='text/javascript' src="{% static 'bootstrap-table/dist/bootstrap-table.min.js' %}"></script>
+      <script type='text/javascript' src="{% static 'bootstrap-table/dist/extensions/export/bootstrap-table-export.js' %}"></script>
+      <script type='text/javascript' src="{% static 'bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control.min.js' %}"></script>
+  {% endblock javascript %}
+
   {% block stylesheets %}{% endblock stylesheets %}
 
 </head>

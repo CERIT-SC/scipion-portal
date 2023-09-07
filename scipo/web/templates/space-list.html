@@ -72,27 +72,15 @@
                     </h3>
                 </div><!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
-                  <table class="table table-head-fixed text-nowrap">
-                    <thead>
+                  <table class="table data-table table-head-fixed text-nowrap" data-url="api/spaces.json?type=datasets" data-side-pagination="server">
+                    <thead class="thead-dark">
                     <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Space ID</th>
+                      <th data-field="name">Name</th>
+                      <th data-field="space_id">Space ID</th>
                     </tr>
                     </thead>
-                    <tbody>
-
-                    {% for space in available_spaces %}
-                    <tr>
-                    <td>0</td>
-                    <td>{{ space.name }}</td>
-                    <td>{{ space.space_id }}</td>
-                    </tr>
-                    {% endfor %}
-
-                    </tbody>
-                    </table>
-                    <p>{{ info }}</p>
+                  </table>
+                  <p>{{ info }}</p>
                 </div><!-- /.card-body -->
             </div>
 
