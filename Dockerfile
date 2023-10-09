@@ -77,7 +77,7 @@ RUN cd /tmp \
     && rm ./get_helm.sh
 
 # Copy scipion-docker helm chart for deploying the Scipion app
-COPY --from=builder /opt/scipion-helm-charts/scipion-docker /opt/scipion-docker-chart
+COPY --from=builder /opt/scipion-helm-charts/scipion-docker/v2.0 /opt/scipion-docker-chart
 RUN chown -R web:web /opt/scipion-docker-chart
 
 # Copy folder with the app sources
