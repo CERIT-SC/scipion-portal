@@ -4,6 +4,7 @@ WORKDIR /srv/scipo
 
 RUN apt-get update \
     && apt-get -y install --no-install-recommends \
+    git \
     python3-pip \
     python3-venv \
     python3-dev \
@@ -31,6 +32,8 @@ ENV PATH="/opt/venv/bin:$PATH"
 RUN pip install -r requirements.txt \
     && npm install
 
+RUN git clone https://github.com/CERIT-SC/scipion-helm-charts.git /opt/scipion-helm-charts
+
 ## Base stage
 FROM debian:12-slim AS base
 
@@ -56,22 +59,26 @@ COPY --from=builder /srv/scipo/node_modules /srv/scipo/node_modules
 
 ENV PATH="/opt/venv/bin:$PATH"
 
-# create user web
+# Create user web
 RUN useradd -u 1000 -m web -s /bin/bash \
     && chown -R web /srv/scipo
 
-# install kubectl for testing purpose (kubectl python api does not need it probably)
-#RUN apt update && apt install -y ca-certificates curl gpg
-#RUN curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor -o /etc/apt/keyrings/kubernetes-archive-keyring.gpg
-#RUN echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
-#RUN apt update && apt install -y kubectl
-RUN apt update && apt install -y curl \
-    && curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
-    && echo "root:a" | chpasswd
+# TODO Install kubectl for testing purpose (kubectl python api does not need it probably)
+RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
+        chmod +x kubectl
 
-USER web
+# Install Helm. This is required for deploying the instances
+RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 \
+        && chmod 700 get_helm.sh \
+        && ./get_helm.sh
+
+# Copy scipion-docker helm chart for deploying the Scipion app
+COPY --from=builder /opt/scipion-helm-charts/scipion-docker /opt/scipion-docker-chart
+RUN chown -R web:web /opt/scipion-docker-chart
 
 # Copy folder with the app sources
-ADD ./scipo /srv/scipo
+COPY ./scipo /srv/scipo
+
+USER web
 
 CMD [ "/bin/bash", "/srv/scipo/init.sh" ]
