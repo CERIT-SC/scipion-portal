@@ -41,7 +41,7 @@ def instance_list(request):
             'token': oidc_token
         })
 
-#@login_required(login_url="/oidc/authenticate/")
+@login_required(login_url="/oidc/authenticate/")
 def project_list(request):
     # OIDC token received from authentication
     oidc_token = request.session.get('oidc_access_token')
@@ -72,7 +72,7 @@ def project_list(request):
             'info': "null",
         })
 
-#@login_required(login_url="/oidc/authenticate/")
+@login_required(login_url="/oidc/authenticate/")
 def dataset_list(request):
     # OIDC token received from authentication
     oidc_token = request.session.get('oidc_access_token')
