@@ -42,6 +42,8 @@ WORKDIR /srv/scipo
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     python3 \
+    curl \
+    ca-certificates \
     default-libmysqlclient-dev \
     nano \
     less \
@@ -64,13 +66,15 @@ RUN useradd -u 1000 -m web -s /bin/bash \
     && chown -R web /srv/scipo
 
 # TODO Install kubectl for testing purpose (kubectl python api does not need it probably)
-RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
-        chmod +x kubectl
+RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
+    && chmod +x kubectl
 
 # Install Helm. This is required for deploying the instances
-RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 \
-        && chmod 700 get_helm.sh \
-        && ./get_helm.sh
+RUN cd /tmp \
+    && curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 \
+    && chmod 700 get_helm.sh \
+    && ./get_helm.sh \
+    && rm ./get_helm.sh
 
 # Copy scipion-docker helm chart for deploying the Scipion app
 COPY --from=builder /opt/scipion-helm-charts/scipion-docker /opt/scipion-docker-chart
