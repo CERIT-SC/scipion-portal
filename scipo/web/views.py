@@ -1,4 +1,5 @@
 import json
+import logging
 
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -10,6 +11,9 @@ from django.urls import reverse
 
 from .api import kubectl, helmctl
 from .api.datahub import Datahub
+from .api.helm import Helmctl
+
+logger = logging.getLogger('django')
 
 
 def oidc_callback(request):
@@ -102,6 +106,54 @@ def dataset_list(request):
             'available_spaces': spaces,
             'info': "null",
         })
+
+@login_required(login_url="/oidc/authenticate/")
+def create_instance_form(request):
+    return render(request, "create-instance-form.html")
+
+@login_required(login_url="/oidc/authenticate/")
+def create_instance_create(request):
+    # Extract parameters from the request and save
+    instance_name = request.GET.get('instance_name')
+    helm_vars = {
+        'instance.prefix': 'scipo',
+        'instance.microk8s': 'false',
+        'instance.mincpu': '2',
+        'instance.maxcpu': '8',
+        'instance.minram': '2048Mi',
+        'instance.maxram': '8192Mi',
+        'instance.keepVolumes': 'true',
+        'vnc.useVncClient': 'false',
+        'vnc.vncPassword': request.GET.get('vnc.vncPassword'),
+        'od.dataset.host':         request.GET.get('od.dataset.host'),
+        'od.dataset.token':        request.GET.get('od.dataset.token'),
+        'od.dataset.spaceId':      request.GET.get('od.dataset.spaceId'),
+        'od.dataset.spaceIdShort': request.GET.get('od.dataset.spaceId', '')[0:8],
+        'od.project.host':         request.GET.get('od.project.host'),
+        'od.project.token':        request.GET.get('od.project.token'),
+        'od.project.spaceId':      request.GET.get('od.project.spaceId'),
+        'od.project.spaceIdShort': request.GET.get('od.project.spaceId', '')[0:8]
+    }
+
+    # Validate the params
+    if not instance_name:
+        return False
+    for k, v in helm_vars.items():
+        if not v:
+            return False
+
+    # Build the Helm command
+    helm_cmd_builder = Helmctl.CommandBuilder(instance_name)
+    for k, v in helm_vars.items():
+        helm_cmd_builder.add_variable(k, v)
+
+    # Install the Helm chart
+    (data, error) = helmctl.install(helm_cmd_builder)
+
+    return render(request, "create-instance-form.html",
+                  context = {
+                      'passwd': str(error)
+                  })
 
 @login_required(login_url="/oidc/authenticate/")
 def create_namespace(request):
