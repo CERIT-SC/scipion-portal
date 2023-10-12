@@ -18,9 +18,7 @@
       <script type='text/javascript' src="{% static 'bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control.min.js' %}"></script>
   {% endblock javascript %}
 
-  {% block stylesheets %}
-
-  {% endblock stylesheets %}
+  {% block stylesheets %}{% endblock stylesheets %}
 
 </head>
 <body class="hold-transition {% block body_class %}{% endblock body_class %}">
@@ -43,6 +41,7 @@
 </div>
 <!-- ./wrapper -->
 
+<script src="{% static 'assets/js/custom.js' %}"></script>
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}{% endblock javascripts %}
 
