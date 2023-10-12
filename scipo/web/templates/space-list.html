@@ -14,7 +14,7 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{% static 'assets/plugins/fontawesome-free/css/all.min.css' %}">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css' %}">
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Tempusdominus Bootstrap 4 -->
   <link rel="stylesheet" href="{% static 'assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
   <!-- iCheck -->
@@ -29,6 +29,8 @@
   <link rel="stylesheet" href="{% static 'assets/plugins/daterangepicker/daterangepicker.css' %}">
   <!-- summernote -->
   <link rel="stylesheet" href="{% static 'assets/plugins/summernote/summernote-bs4.min.css' %}">
+
+  <link rel="stylesheet" href="{% static 'bootstrap-table/dist/bootstrap-table.min.css' %}">
 
 {% endblock stylesheets %}
 
@@ -72,12 +74,12 @@
                     </h3>
                 </div><!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
-                  <table class="table data-table table-head-fixed text-nowrap" data-url="api/spaces.json?type=datasets" data-side-pagination="server">
-                    <thead class="thead-dark">
-                    <tr>
-                      <th data-field="name">Name</th>
-                      <th data-field="space_id">Space ID</th>
-                    </tr>
+                  <table class="table data-table table-head-fixed text-nowrap" data-url="/api/spaces.json">
+                    <thead>
+                      <tr>
+                        <th data-field="name">Name</th>
+                        <th data-field="space_id">Space ID</th>
+                      </tr>
                     </thead>
                   </table>
                   <p>{{ info }}</p>
@@ -131,5 +133,10 @@
   <script src="{% static 'assets/js/pages/dashboard.js' %}"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="{% static 'assets/js/demo.js' %}"></script>
+
+  <script type='text/javascript' src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
+  <script type='text/javascript' src="{% static 'bootstrap-table/dist/bootstrap-table.min.js' %}"></script>
+  <script type='text/javascript' src="{% static 'bootstrap-table/dist/extensions/export/bootstrap-table-export.js' %}"></script>
+  <script type='text/javascript' src="{% static 'bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control.min.js' %}"></script>
 
 {% endblock javascripts %}
