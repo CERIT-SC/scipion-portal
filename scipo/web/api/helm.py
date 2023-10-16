@@ -39,7 +39,7 @@ class Helmctl:
                 cmd_list.append(word)
 
         try:
-            result = subprocess.run(cmd_full, shell=True, capture_output=True)
+            result = subprocess.run(cmd_full, shell=True, capture_output=True, text=True)
         except subprocess.CalledProcessError as ex:
             logger.error(ex)
             return None
@@ -51,7 +51,7 @@ class Helmctl:
             logger.error(f'Command returned non-zero code. Code: {result.returncode}, stderr: \"{result.stderr}\".')
             return None
 
-        return str(result.stdout)
+        return result.stdout.strip()
 
     def list(self):
         cmd_result = self._execute_command('list --all')
