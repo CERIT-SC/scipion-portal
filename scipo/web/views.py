@@ -1,5 +1,6 @@
 import json
 import logging
+import secrets
 
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -94,7 +95,7 @@ def create_instance_create(request):
         'instance.maxram': '8192Mi',
         'instance.keepVolumes': 'true',
         'vnc.useVncClient': 'false',
-        'vnc.vncPassword': request.GET.get('vnc.vncPassword'),
+        'vnc.vncPassword': secrets.token_hex(16),
         'od.dataset.host':         request.GET.get('od.dataset.host'),
         'od.dataset.token':        request.GET.get('od.dataset.token'),
         'od.dataset.spaceId':      request.GET.get('od.dataset.spaceId'),
