@@ -2,6 +2,7 @@
 import logging
 import os
 import hashlib
+import requests
 
 from kubernetes import client, config
 
@@ -76,6 +77,19 @@ class Kubectl:
             if j.startswith("s"):
                 result.append(j)
         return result
+
+    def get_instance_info(self, instance_name):
+        """Get info from the running controller of the given instance"""
+        # sent HTTP GET request to the controller's service
+        target_svc = f"http://scipo-{instance_name}-rest:8000/info"
+        try:
+            r = requests.get(url = target_svc, timeout=3)
+            if r.status_code != 200:
+                return None
+
+            return r.text
+        except:
+            return None
 
     def create_namespace(self, username):
         ns_name = self._get_child_ns_name(username)

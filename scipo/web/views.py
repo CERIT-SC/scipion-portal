@@ -153,7 +153,17 @@ def api_spaces(request):
 
 @login_required(login_url="/oidc/authenticate/")
 def api_instances(request):
+    # get info about apps from the helm
     charts, error = helmctl.list()
 
+    # add additional info from the Scipion's controller
     j = json.loads(charts)
+    for chart in j:
+        instance_info = kubectl.get_instance_info(chart["name"])
+        if not instance_info:
+            continue
+
+        # add link to the running instance
+        instance_info = json.loads(instance_info)
+        chart["link"] = instance_info["link"]
     return JsonResponse(j, safe=False)
