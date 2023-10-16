@@ -87,6 +87,7 @@ def create_instance_create(request):
     # Extract parameters from the request and save
     instance_name = request.GET.get('instance_name')
     helm_vars = {
+        'instance.releaseChannel': 'dev',
         'instance.prefix': 'scipo',
         'instance.microk8s': 'false',
         'instance.mincpu': '2',
