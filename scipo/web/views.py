@@ -127,7 +127,7 @@ def create_instance_create(request):
                       'passwd': str(error)
                   })
 
-@login_required()
+@login_required(login_url="/oidc/authenticate/")
 def api_spaces(request):
     # OIDC token received from authentication
     oidc_token = request.session.get('oidc_access_token')
@@ -149,4 +149,11 @@ def api_spaces(request):
             error += f' {str(e)}'
 
     j = json.loads(json.dumps(spaces))
+    return JsonResponse(j, safe=False)
+
+@login_required(login_url="/oidc/authenticate/")
+def api_instances(request):
+    charts, error = helmctl.list()
+
+    j = json.loads(charts)
     return JsonResponse(j, safe=False)

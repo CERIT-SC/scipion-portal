@@ -8,6 +8,7 @@
 
 {% block stylesheets %}
 <!-- Specific Page CSS goes HERE  -->
+<link rel="stylesheet" href="{% static 'bootstrap-table/dist/bootstrap-table.min.css' %}">
 <!-- / Specific Page CSS  -->
 {% endblock stylesheets %}
 
@@ -55,8 +56,17 @@
                                 Running instances
                             </h3>
                         </div><!-- /.card-header -->
-                        <div class="card-body">
-                            Empty
+                        <div class="card-body table-responsive p-0">
+                            <table class="table data-table table-head-fixed text-nowrap" data-url="/api/instances.json">
+                                <thead>
+                                    <tr>
+                                        <th data-field="name">Name</th>
+                                        <th data-field="updated">Updated</th>
+                                        <th data-field="status">Status</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                            <p>{{ info }}</p>
                         </div><!-- /.card-body -->
                     </div>
 
@@ -72,5 +82,13 @@
 
 {% block javascripts %}
 <!-- Specific Page JS goes HERE  -->
+<script type='text/javascript' src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
+<script type='text/javascript' src="{% static 'bootstrap-table/dist/bootstrap-table.min.js' %}"></script>
+<script type='text/javascript'
+    src="{% static 'bootstrap-table/dist/extensions/export/bootstrap-table-export.js' %}"></script>
+<script type='text/javascript'
+    src="{% static 'bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control.min.js' %}"></script>
+<!-- Custom modifications -->
+<script src="{% static 'assets/js/dynamic-table.js' %}"></script>
 <!-- / Specific Page JS  -->
 {% endblock javascripts %}

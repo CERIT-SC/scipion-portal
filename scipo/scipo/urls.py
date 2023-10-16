@@ -29,6 +29,8 @@ urlpatterns = [
 
     # API
     path('api/spaces.json', views.api_spaces, name='api_spaces'),
+    path('api/instances.json', views.api_instances, name='api_instances'),
+
     path('create-instance-form/', views.create_instance_form, name='create-instance-form'),
     path('create-instance-create/', views.create_instance_create, name='create-instance-create'),
 
