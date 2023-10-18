@@ -17,3 +17,11 @@ function linkFormatter(value) {
 
     return ''
 }
+
+function deleteFormatter(value) {
+    if (value) {
+        return `<a class="link-danger" href="/api/instance/delete/${value}" target="_blank"><i class="fas fa-trash mr-1"></i>Delete</a>`;
+    }
+
+    return ''
+}

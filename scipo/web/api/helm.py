@@ -28,8 +28,9 @@ class Helmctl:
     def __init__(self) -> None:
         self.ns_name = f"{os.environ['KUBERNETES_NS_NAME']}"
 
-    def _execute_command(self, cmd):
-        cmd_full = f'helm --output json -n {self.ns_name} {cmd}'
+    def _execute_command(self, cmd, json_output = False):
+        cmd_output_part = "--output json" if json_output else ""
+        cmd_full = f'helm {cmd_output_part} -n {self.ns_name} {cmd}'
 
         # convert str to List[str]
         cmd_list = list()
@@ -54,7 +55,7 @@ class Helmctl:
         return result.stdout.strip()
 
     def list(self):
-        cmd_result = self._execute_command('list --all')
+        cmd_result = self._execute_command('list --all', json_output=True)
 
         data = ''
         error = ''
@@ -68,7 +69,7 @@ class Helmctl:
 
     def install(self, command_builder: CommandBuilder):
         logger.debug(str(command_builder.command))
-        cmd_result = self._execute_command(command_builder.build())
+        cmd_result = self._execute_command(command_builder.build(), json_output=True)
 
         data = ''
         error = ''
@@ -81,5 +82,14 @@ class Helmctl:
         return (data, error)
 
     def uninstall(self, instance_name):
-        #cmd_result = self._execute_command(f'uninstall {instance_name}')
-        logger.error("not implemented")
+        cmd_result = self._execute_command(f'uninstall {instance_name}')
+
+        data = ''
+        error = ''
+
+        if not cmd_result:
+            error = 'Deletion of the Scipion instance failed'
+            return (data, error)
+
+        data = cmd_result
+        return (data, error)

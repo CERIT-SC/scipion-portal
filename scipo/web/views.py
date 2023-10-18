@@ -167,3 +167,11 @@ def api_instances(request):
         instance_info = json.loads(instance_info)
         chart["link"] = instance_info["link"]
     return JsonResponse(j, safe=False)
+
+@login_required(login_url="/oidc/authenticate/")
+def api_instance_delete(request, name):
+    data, error = helmctl.uninstall(name)
+    if not error:
+        return HttpResponse(status=200)
+
+    return HttpResponse(status=500)
