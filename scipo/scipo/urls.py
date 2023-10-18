@@ -17,25 +17,31 @@ from django.contrib import admin
 from django.urls import path, include
 
 from web import views
+from web import rest
 
 urlpatterns = [
+    # View
+    #========
     path('', views.index, name='index'),
+
     path('instance-list/', views.instance_list, name='instance-list'),
-    path('project-list/', views.project_list, name='project-list'),
-    path('dataset-list/', views.dataset_list, name='dataset-list'),
+    path('project-list/',  views.project_list,  name='project-list'),
+    path('dataset-list/',  views.dataset_list,  name='dataset-list'),
 
     path('privacy-policy/', views.privacy_policy, name='privacy-policy'),
-    path('terms-of-use/', views.terms_of_use, name='terms-of-use'),
-
-    # API
-    path('api/spaces.json', views.api_spaces, name='api_spaces'),
-    path('api/instances.json', views.api_instances, name='api_instances'),
-    path('api/instance/create', views.api_instance_create, name='api_instance_create'),
-    path('api/instance/delete/<str:name>', views.api_instance_delete, name='api_instance_delete'),
+    path('terms-of-use/',   views.terms_of_use,   name='terms-of-use'),
 
     path('admin/', admin.site.urls),
     path('oidc/', include('mozilla_django_oidc.urls')),
     #path('oidc-callback/', views.oidc_callback, name='oidc-callback'),
 
     path('__debug__/', include('debug_toolbar.urls')),
+
+
+    # REST API
+    #============
+    path('api/spaces.json',                rest.api_spaces,          name='api_spaces'),
+    path('api/instances.json',             rest.api_instances,       name='api_instances'),
+    path('api/instance/create',            rest.api_instance_create, name='api_instance_create'),
+    path('api/instance/delete/<str:name>', rest.api_instance_delete, name='api_instance_delete'),
 ]
