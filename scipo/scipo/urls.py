@@ -30,10 +30,8 @@ urlpatterns = [
     # API
     path('api/spaces.json', views.api_spaces, name='api_spaces'),
     path('api/instances.json', views.api_instances, name='api_instances'),
+    path('api/instance/create', views.api_instance_create, name='api_instance_create'),
     path('api/instance/delete/<str:name>', views.api_instance_delete, name='api_instance_delete'),
-
-    path('create-instance-form/', views.create_instance_form, name='create-instance-form'),
-    path('create-instance-create/', views.create_instance_create, name='create-instance-create'),
 
     path('admin/', admin.site.urls),
     path('oidc/', include('mozilla_django_oidc.urls')),

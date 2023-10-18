@@ -79,11 +79,7 @@ def dataset_list(request):
         })
 
 @login_required(login_url="/oidc/authenticate/")
-def create_instance_form(request):
-    return render(request, "create-instance-form.html")
-
-@login_required(login_url="/oidc/authenticate/")
-def create_instance_create(request):
+def api_instance_create(request):
     # Extract parameters from the request and save
     instance_name = request.GET.get('instance_name')
     helm_vars = {
@@ -121,11 +117,10 @@ def create_instance_create(request):
 
     # Install the Helm chart
     (data, error) = helmctl.install(helm_cmd_builder)
+    if not error:
+        return HttpResponse(status=200)
 
-    return render(request, "create-instance-form.html",
-                  context = {
-                      'passwd': str(error)
-                  })
+    return HttpResponse(status=500)
 
 @login_required(login_url="/oidc/authenticate/")
 def api_spaces(request):
