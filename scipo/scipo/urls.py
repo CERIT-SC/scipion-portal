@@ -24,9 +24,9 @@ urlpatterns = [
     #========
     path('', views.index, name='index'),
 
-    path('instance-list/', views.instance_list, name='instance-list'),
-    path('project-list/',  views.project_list,  name='project-list'),
-    path('dataset-list/',  views.dataset_list,  name='dataset-list'),
+    path('instances/', views.instances, name='instances'),
+    path('projects/',  views.projects,  name='projects'),
+    path('datasets/',  views.datasets,  name='datasets'),
 
     path('privacy-policy/', views.privacy_policy, name='privacy-policy'),
     path('terms-of-use/',   views.terms_of_use,   name='terms-of-use'),

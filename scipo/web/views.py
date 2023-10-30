@@ -31,14 +31,14 @@ def terms_of_use(request):
     return render(request, "terms-of-use.html")
 
 @login_required(login_url="/oidc/authenticate/")
-def instance_list(request):
+def instances(request):
     # OIDC token received from authentication
     oidc_token = request.session.get('oidc_access_token')
 
     kube_all_instances = kubectl.list_all()
     charts, error = helmctl.list()
 
-    return render(request, "instance-list.html",
+    return render(request, "instances.html",
         context = {
             'kube_all_instances': kube_all_instances,
             'charts': charts,
@@ -47,7 +47,7 @@ def instance_list(request):
         })
 
 @login_required(login_url="/oidc/authenticate/")
-def project_list(request):
+def projects(request):
     site_labels = {
         'header': 'Projects',
         'create_space_btn': 'Project Space',
@@ -55,14 +55,14 @@ def project_list(request):
         'site_icon': 'fa-hammer'
     }
 
-    return render(request, "space-list.html",
+    return render(request, "spaces.html",
         context = {
             'site_labels': site_labels,
             'info': 'null',
         })
 
 @login_required(login_url="/oidc/authenticate/")
-def dataset_list(request):
+def datasets(request):
     site_labels = {
         'header': 'Datasets',
         'create_space_btn': 'Dataset Space',
@@ -70,7 +70,7 @@ def dataset_list(request):
         'site_icon': 'fa-database'
     }
 
-    return render(request, "space-list.html",
+    return render(request, "spaces.html",
         context = {
             'site_labels': site_labels,
             'info': 'null',
