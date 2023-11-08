@@ -9,6 +9,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.template import loader
 from django.urls import reverse
+from django.contrib import messages
+
+from .utils import scipo_render
 
 from .api import kubectl, helmctl
 from .api.datahub import Datahub
@@ -22,13 +25,13 @@ def oidc_callback(request):
 
 #@login_required(login_url="/login/")
 def index(request):
-    return render(request, "index.html")
+    return scipo_render(request, "index.html")
 
 def privacy_policy(request):
-    return render(request, "privacy-policy.html")
+    return scipo_render(request, "privacy-policy.html")
 
 def terms_of_use(request):
-    return render(request, "terms-of-use.html")
+    return scipo_render(request, "terms-of-use.html")
 
 @login_required(login_url="/oidc/authenticate/")
 def instances(request):
@@ -38,7 +41,7 @@ def instances(request):
     kube_all_instances = kubectl.list_all()
     charts, error = helmctl.list()
 
-    return render(request, "instances.html",
+    return scipo_render(request, "instances.html",
         context = {
             'kube_all_instances': kube_all_instances,
             'charts': charts,
@@ -55,7 +58,7 @@ def projects(request):
         'site_icon': 'fa-hammer'
     }
 
-    return render(request, "spaces.html",
+    return scipo_render(request, "spaces.html",
         context = {
             'site_labels': site_labels,
             'info': 'null',
@@ -70,7 +73,7 @@ def datasets(request):
         'site_icon': 'fa-database'
     }
 
-    return render(request, "spaces.html",
+    return scipo_render(request, "spaces.html",
         context = {
             'site_labels': site_labels,
             'info': 'null',
