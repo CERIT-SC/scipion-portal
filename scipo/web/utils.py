@@ -2,18 +2,10 @@
 from django.shortcuts import render
 from django.contrib import messages
 
-def scipo_render(
-    request,
-    template_name,
-    context = None,
-    content_type = None,
-    status = None,
-    using = None,
-):
+def _messages_payload(request):
     """
-    Custom proxy function of the basic "render()". Solves the problem with adding additional data to the django messages.
+    Solves the problem with adding additional data to the django messages.
     """
-
     messages_extra_tags = list()
 
     msgs = messages.get_messages(request)
@@ -37,9 +29,23 @@ def scipo_render(
                 "extra_tags": extra_tags
             })
 
+    return messages_extra_tags
+
+def scipo_render(
+    request,
+    template_name,
+    context = None,
+    content_type = None,
+    status = None,
+    using = None
+):
+    """
+    Custom proxy function of the basic "render()" with additional payload on the "context".
+    """
+
     if context:
         context.update({
-            "messages_extra_tags": messages_extra_tags
+            "messages_extra_tags": _messages_payload(request)
         })
 
     return render(
