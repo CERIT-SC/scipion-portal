@@ -11,6 +11,7 @@ from django.template import loader
 from django.urls import reverse
 from django.contrib import messages
 
+from .forms import InstancesForm
 from .utils import scipo_render
 
 from .api import kubectl, helmctl
@@ -35,18 +36,25 @@ def terms_of_use(request):
 
 @login_required(login_url="/oidc/authenticate/")
 def instances(request):
-    # OIDC token received from authentication
-    oidc_token = request.session.get('oidc_access_token')
+    if request.method == "POST":
+        form = InstancesForm(request.POST)
 
-    kube_all_instances = kubectl.list_all()
-    charts, error = helmctl.list()
+        if form.is_valid():
+            response = api_instances(request)
+            if response.status_code == 200:
+                logger.info("Instance was successfully created.")
+                messages.success(request, "Instance was successfully created.")
+            else:
+                logger.error("Creating the instance failed.")
+                messages.error(request, "Creating the instance failed.")
+
+            return HttpResponseRedirect("/instances")
+    else:
+        form = InstancesForm()
 
     return scipo_render(request, "instances.html",
         context = {
-            'kube_all_instances': kube_all_instances,
-            'charts': charts,
-            'error': error,
-            'token': oidc_token
+            'form': form,
         })
 
 @login_required(login_url="/oidc/authenticate/")
