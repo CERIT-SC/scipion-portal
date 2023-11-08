@@ -5,6 +5,8 @@ import requests
 import logging
 
 
+logger = logging.getLogger('django')
+
 _host = 'https://datahub.egi.eu'
 
 class Datahub:
@@ -13,20 +15,24 @@ class Datahub:
         headers = {'Authorization': f'Bearer egi:{oidc_token}'}
         response = requests.get(f'{_host}{endpoint}', headers=headers)
 
-        data = ''
-        error = ''
-
         if response.status_code != 200:
-            error = f'Error, code: {response.status_code}, text: {response.text}'
-        else:
-            data = response.json()
+            logger.error(f'Error, code: {response.status_code}, text: {response.text}')
+            return None
 
-        return (data, error)
+        return response.json()
 
     @staticmethod
     def list_spaces(oidc_token):
-        return Datahub._make_request(f'/api/v3/onezone/user/effective_spaces', oidc_token)
+        result = Datahub._make_request(f'/api/v3/onezone/user/effective_spaces', oidc_token)
+        if not result:
+            logger.error("Obtaining list of spaces failed.")
+
+        return result
 
     @staticmethod
     def get_space(oidc_token, space_id):
-        return Datahub._make_request(f'/api/v3/onezone/spaces/{space_id}', oidc_token)
+        result = Datahub._make_request(f'/api/v3/onezone/spaces/{space_id}', oidc_token)
+        if not result:
+            logger.error("Obtaining list of spaces failed.")
+
+        return result

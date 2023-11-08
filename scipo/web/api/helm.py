@@ -55,41 +55,25 @@ class Helmctl:
         return result.stdout.strip()
 
     def list(self):
-        cmd_result = self._execute_command('list --all', json_output=True)
+        result = self._execute_command('list --all', json_output=True)
+        if not result:
+            logger.error("Getting list of your running instances failed.")
+            return None
 
-        data = ''
-        error = ''
-
-        if not cmd_result:
-            error = 'Getting list of your running instances failed'
-            return (data, error)
-
-        data = cmd_result
-        return (data, error)
+        return result
 
     def install(self, command_builder: CommandBuilder):
-        logger.debug(str(command_builder.command))
-        cmd_result = self._execute_command(command_builder.build(), json_output=True)
+        result = self._execute_command(command_builder.build(), json_output=True)
+        if not result:
+            logger.error("Starting new Scipion instance failed.")
+            return False
 
-        data = ''
-        error = ''
-
-        if not cmd_result:
-            error = 'Starting new Scipion instance failed'
-            return (data, error)
-
-        data = cmd_result
-        return (data, error)
+        return True
 
     def uninstall(self, instance_name):
-        cmd_result = self._execute_command(f'uninstall {instance_name}')
+        result = self._execute_command(f'uninstall {instance_name}')
+        if not result:
+            logger.error("Deletion of the Scipion instance failed.")
+            return False
 
-        data = ''
-        error = ''
-
-        if not cmd_result:
-            error = 'Deletion of the Scipion instance failed'
-            return (data, error)
-
-        data = cmd_result
-        return (data, error)
+        return True

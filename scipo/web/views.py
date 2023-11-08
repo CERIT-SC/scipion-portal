@@ -17,6 +17,7 @@ from .utils import scipo_render
 from .api import kubectl, helmctl
 from .api.datahub import Datahub
 from .api.helm import Helmctl
+from .rest import api_instances
 
 
 logger = logging.getLogger('django')

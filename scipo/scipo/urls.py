@@ -40,8 +40,7 @@ urlpatterns = [
 
     # REST API
     #============
-    path('api/spaces.json',                rest.api_spaces,          name='api_spaces'),
-    path('api/instances.json',             rest.api_instances,       name='api_instances'),
-    path('api/instance/create',            rest.api_instance_create, name='api_instance_create'),
-    path('api/instance/delete/<str:name>', rest.api_instance_delete, name='api_instance_delete'),
+    path('api/spaces/',               rest.api_spaces,    name='api_spaces'),
+    path('api/instances/',            rest.api_instances, name='api_instances'),
+    path('api/instances/<str:name>/', rest.api_instances, name='api_instances'),
 ]
