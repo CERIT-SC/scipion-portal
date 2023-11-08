@@ -60,8 +60,7 @@ def projects(request):
 
     return scipo_render(request, "spaces.html",
         context = {
-            'site_labels': site_labels,
-            'info': 'null',
+            'site_labels': site_labels
         })
 
 @login_required(login_url="/oidc/authenticate/")
@@ -75,6 +74,5 @@ def datasets(request):
 
     return scipo_render(request, "spaces.html",
         context = {
-            'site_labels': site_labels,
-            'info': 'null',
+            'site_labels': site_labels
         })
