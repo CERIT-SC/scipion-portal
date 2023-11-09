@@ -1,0 +1,6 @@
+gitops:
+    manifest_projects:
+        - id: p-6qdzc
+          default_namespace: scipion-portal-ns
+          paths:
+              - glob: '/manifest/*.{yaml,yml,json}'
