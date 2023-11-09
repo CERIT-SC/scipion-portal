@@ -16,7 +16,6 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -24,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 INTERNAL_IPS = ['147.251.59.199', '172.20.0.2']
 
 ALLOWED_HOSTS = ['*']
@@ -47,7 +46,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -97,16 +97,15 @@ AUTHENTICATION_BACKENDS = (
 )
 
 OIDC_RP_SIGN_ALGO = 'RS256'
-OIDC_OP_JWKS_ENDPOINT = 'https://aai-demo.egi.eu/auth/realms/egi/protocol/openid-connect/certs'
+OIDC_OP_JWKS_ENDPOINT = f'{os.environ["OIDC_OP_BASE_URL"]}/certs'
 OIDC_RP_CLIENT_ID = os.environ['OIDC_RP_CLIENT_ID']
 OIDC_RP_CLIENT_SECRET = os.environ['OIDC_RP_CLIENT_SECRET']
-OIDC_OP_AUTHORIZATION_ENDPOINT = "https://aai-demo.egi.eu/auth/realms/egi/protocol/openid-connect/auth"
-OIDC_OP_TOKEN_ENDPOINT = "https://aai-demo.egi.eu/auth/realms/egi/protocol/openid-connect/token"
-OIDC_OP_USER_ENDPOINT = "https://aai-demo.egi.eu/auth/realms/egi/protocol/openid-connect/userinfo"
-LOGIN_REDIRECT_URL = "https://scipion.cerit-sc.cz/oidc/callback"
-#LOGIN_REDIRECT_URL = "https://keras.ics.muni.cz/oidc/callback"
-LOGOUT_REDIRECT_URL = "https://scipion.cerit-sc.cz/oidc/callback"
-#LOGOUT_REDIRECT_URL = "https://keras.ics.muni.cz/oidc/callback"
+OIDC_RP_SCOPES = 'openid email profile eduperson_entitlement'
+OIDC_OP_AUTHORIZATION_ENDPOINT = f'{os.environ["OIDC_OP_BASE_URL"]}/auth'
+OIDC_OP_TOKEN_ENDPOINT = f'{os.environ["OIDC_OP_BASE_URL"]}/token'
+OIDC_OP_USER_ENDPOINT = f'{os.environ["OIDC_OP_BASE_URL"]}/userinfo'
+LOGIN_REDIRECT_URL = os.environ['OIDC_REDIRECT_URL']
+LOGOUT_REDIRECT_URL = os.environ['OIDC_REDIRECT_URL']
 OIDC_STORE_ID_TOKEN = True
 OIDC_STORE_ACCESS_TOKEN = True
 
@@ -150,8 +149,46 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# load npm staticfiles during development
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'node_modules')
+]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} || {message}",
+            "style": "{",
+        },
+    },
+    'handlers': {
+        'console': {
+            'formatter': 'verbose',
+            'class': 'logging.StreamHandler',
+        },
+        'file': {
+            'formatter': 'verbose',
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'

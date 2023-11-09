@@ -1,6 +1,0 @@
-
-instance:
-  mincpu: 2
-  maxcpu: 4
-  minram: 1024Mi
-  maxram: 1024Mi

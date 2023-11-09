@@ -1,28 +1,29 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'assets/css/custom.css' %}">
 
-  <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/" class="brand-link">
-      <img src="{% static 'assets/img/scipion-portal-logo.png' %}" alt="Scipion Portal logo" class="brand-image" style="opacity: .8">
-      <span class="brand-text font-weight-light">Scipion Portal</span>
+        <img src="{% static 'assets/img/scipion-portal-logo.png' %}" alt="Scipion Portal logo" class="brand-image"
+            style="opacity: .8">
+        <span class="brand-text font-weight-light">Scipion Portal</span>
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3">
-        {% if user.is_authenticated %}
-        <div class="d-flex">
-          <div class="image">
-            <i class="custom-user-img-green fas fa-user"></i>
-          </div>
-          <div class="info">
-            {{ user.email }}
-          </div>
-        </div>
-        <!--
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3">
+            {% if user.is_authenticated %}
+            <div class="d-flex">
+                <div class="image">
+                    <i class="custom-user-img-green fas fa-user"></i>
+                </div>
+                <div class="info">
+                    {{ user.email }}
+                </div>
+            </div>
+            <!--
         <div>
           <form action="{% url 'oidc_logout' %}" method="post">
             {% csrf_token %}
@@ -30,92 +31,99 @@
           </form>
         </div>
         -->
-        {% else %}
-        <div class="d-flex">
-          <div class="image">
-            <i class="custom-user-img-gray fas fa-user"></i>
-          </div>
-          <div class="info">
-            Not logged in
-          </div>
-        </div>
-        <!--
+            {% else %}
+            <div class="d-flex">
+                <div class="image">
+                    <i class="custom-user-img-gray fas fa-user"></i>
+                </div>
+                <div class="info">
+                    Not logged in
+                </div>
+            </div>
+            <!--
         <div>
           <a class="d-block" href="{% url 'oidc_authentication_init' %}">
             Login
           </a>
         </div>
         -->
-        {% endif %}
-      </div>
-
-
-      <!-- SidebarSearch Form -->
-      {% if user.is_authenticated %}
-      <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
-          </div>
+            {% endif %}
         </div>
-      </div>
-      {% endif %}
 
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
+
+        <!-- SidebarSearch Form -->
+        {% if user.is_authenticated %}
+        <div class="form-inline">
+            <div class="input-group" data-widget="sidebar-search">
+                <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+                <div class="input-group-append">
+                    <button class="btn btn-sidebar">
+                        <i class="fas fa-search fa-fw"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 
-          <li class="nav-item">
-            <a href="/" class="nav-link">
-              <i class="nav-icon fas fa-home"></i>
-              <p>
-                Home
-              </p>
-            </a>
-          </li>
+                <li class="nav-item">
+                    <a href="/" class="nav-link">
+                        <i class="nav-icon fas fa-home"></i>
+                        <p>
+                            Home
+                        </p>
+                    </a>
+                </li>
 
-          {% if user.is_authenticated %}
+                {% if user.is_authenticated %}
 
-          <li class="nav-item">
-            <a href="/instance-list" class="nav-link">
-              <i class="nav-icon fas fa-box-open"></i>
-              <p>
-                Instances
-              </p>
-            </a>
-          </li>
+                <li class="nav-item">
+                    <a href="/instances" class="nav-link">
+                        <i class="nav-icon fas fa-box-open"></i>
+                        <p>
+                            Instances
+                        </p>
+                    </a>
+                </li>
 
-          <li class="nav-item">
-            <a href="/dataset-list" class="nav-link">
-              <i class="nav-icon fas fa-database"></i>
-              <p>
-                Datasets
-              </p>
-            </a>
-          </li>
+                <li class="nav-item">
+                    <a href="/projects" class="nav-link">
+                        <i class="nav-icon fas fa-hammer"></i>
+                        <p>
+                            Projects
+                        </p>
+                    </a>
+                </li>
 
-          {% endif %}
+                <li class="nav-item">
+                    <a href="/datasets" class="nav-link">
+                        <i class="nav-icon fas fa-database"></i>
+                        <p>
+                            Datasets
+                        </p>
+                    </a>
+                </li>
 
-          <li class="nav-header">External Services</li>
+                {% endif %}
 
-          <li class="nav-item">
-            <a target="_blank" rel="noopener noreferrer"
-            href="https://datahub.egi.eu/" class="nav-link">
-              <!--<i class="nav-icon fas fa-file"></i>-->
-              <img src="{% static 'assets/img/od-logo.png' %}" alt="Onedata logo" class="nav-icon">
-              <p>Datahub EGI</p>
-            </a>
-          </li>
+                <li class="nav-header">External Services</li>
 
-        </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
+                <li class="nav-item">
+                    <a target="_blank" rel="noopener noreferrer" href="https://datahub.egi.eu/" class="nav-link">
+                        <!--<i class="nav-icon fas fa-file"></i>-->
+                        <img src="{% static 'assets/img/od-logo.png' %}" alt="Onedata logo" class="nav-icon">
+                        <p>Datahub EGI</p>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
-  </aside>
-  
+</aside>

@@ -1,0 +1,112 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %} Dashboard {% endblock %}
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} sidebar-mini {% endblock body_class %}
+
+{% block stylesheets %}
+<!-- Specific Page CSS goes HERE  -->
+<link rel="stylesheet" href="{% static 'bootstrap-table/dist/bootstrap-table.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/dynamic-table.css' %}">
+<!-- / Specific Page CSS  -->
+{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="content-wrapper">
+
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Instances</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">
+                            <a href="/">
+                                <i class="fas fa-home mr-1"></i>Home
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <i class="fas fa-box-open mr-1"></i>Instances
+                        </li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+
+                    {% include 'includes/messages.html' %}
+
+                    <div class="card card-default collapsed-card">
+                        <div class="btn card-header" data-card-widget="collapse">
+                            <h3 class="card-title">
+                                <i class="fas fa-plus mr-1"></i>
+                                Create new instance
+                            </h3>
+                        </div><!-- /.card-header -->
+                        <div class="card-body">
+                            <form data-bitwarden-watching="1" method="post" action="/instances/">
+                                {% csrf_token %}
+                                {{ form }}
+                                <button type="submit" class="btn btn-primary">Start</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-box-open mr-1"></i>
+                                Running instances
+                            </h3>
+                        </div><!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                            <table class="table data-table table-head-fixed text-nowrap" data-url="/api/instances">
+                                <thead>
+                                    <tr>
+                                        <th data-field="name">Name</th>
+                                        <th data-field="link" data-formatter="linkFormatter">Link</th>
+                                        <th data-field="updated">Updated</th>
+                                        <th data-field="health" data-formatter="healthFormatter">Health</th>
+                                        <th data-field="friendly_phase" data-formatter="phaseFormatter">Status</th>
+                                        <th data-field="name" data-formatter="deleteFormatter">Delete</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div><!-- /.card-body -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+
+</div>
+
+{% endblock content %}
+
+{% block javascripts %}
+<!-- Specific Page JS goes HERE  -->
+<script type='text/javascript' src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
+<script type='text/javascript' src="{% static 'bootstrap-table/dist/bootstrap-table.min.js' %}"></script>
+<script type='text/javascript'
+    src="{% static 'bootstrap-table/dist/extensions/export/bootstrap-table-export.js' %}"></script>
+<script type='text/javascript'
+    src="{% static 'bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control.min.js' %}"></script>
+<!-- Custom modifications -->
+<script src="{% static 'assets/js/dynamic-table.js' %}"></script>
+<!-- / Specific Page JS  -->
+{% endblock javascripts %}
