@@ -30,6 +30,22 @@ function healthFormatter(value) {
     return `<div class="health-warning"><i class="fas fa-question mr-1"></i>unknown</div>`
 }
 
+function phaseFormatter(value) {
+    if (value) {
+        if (value === "stage-in") {
+            return `<div><i class="fas fa-download mr-1"></i>${value}</div>`;
+        } else if (value === "running") {
+            return `<div><i class="fas fa-check mr-1"></i>${value}</div>`;
+        } else if (value === "stage-out") {
+            return `<div><i class="fas fa-upload mr-1"></i>${value}</div>`;
+        } else if (value === "end") {
+            return `<div><i class="fas fa-door-open mr-1"></i>${value}</div>`;
+        }
+    }
+
+    return `<div><i class="fas fa-question mr-1"></i>unknown</div>`
+}
+
 function deleteFormatter(value) {
     if (value) {
         return `<form method="post" action="/instances/${value}"><button type="submit" class="data-table link-danger" target="_blank"><i class="fas fa-trash mr-1"></i>Delete</button></form>`;
