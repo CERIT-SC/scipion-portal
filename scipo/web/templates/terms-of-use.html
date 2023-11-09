@@ -6,180 +6,130 @@
 <!-- Element injected in the BODY element -->
 {% block body_class %} sidebar-mini {% endblock body_class %}
 
-<!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
-
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{% static 'assets/plugins/fontawesome-free/css/all.min.css' %}">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css' %}">
-  <!-- Tempusdominus Bootstrap 4 -->
-  <link rel="stylesheet" href="{% static 'assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
-  <!-- iCheck -->
-  <link rel="stylesheet" href="{% static 'assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
-  <!-- JQVMap -->
-  <link rel="stylesheet" href="{% static 'assets/plugins/jqvmap/jqvmap.min.css' %}">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{% static 'assets/css/adminlte.min.css' %}">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="{% static 'assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
-  <!-- Daterange picker -->
-  <link rel="stylesheet" href="{% static 'assets/plugins/daterangepicker/daterangepicker.css' %}">
-  <!-- summernote -->
-  <link rel="stylesheet" href="{% static 'assets/plugins/summernote/summernote-bs4.min.css' %}">
-
+<!-- Specific Page CSS goes HERE  -->
+<!-- / Specific Page CSS  -->
 {% endblock stylesheets %}
 
 {% block content %}
 
-  <div class="content-wrapper">
+<div class="content-wrapper">
 
     <!-- Content Header (Page header) -->
     <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Scipion Portal Acceptable Use Policy and Conditions of Use (AUP)</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="/">Home</a></li>
-              <li class="breadcrumb-item active">Terms of use</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Scipion Portal Acceptable Use Policy and Conditions of Use (AUP)</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">
+                            <a href="/">
+                                <i class="fas fa-home mr-1"></i>Home
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active">Terms of use</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
 
-            <div class="card">
-              <div class="card-body">
-                <p>
-                  This Acceptable Use Policy and Conditions of Use ("AUP") defines the
-                  rules and conditions that govern your access to and use (including
-                  transmission, processing, and storage of data) of the resources and
-                  services ("Services") as granted by the Masaryk University, and the Virtual
-                  Organisation to which you belong, for the purpose of meeting the goals
-                  of Masaryk University, namely to deliver advanced computing services to support
-                  researchers, multinational projects and research infrastructures, and
-                  the goals of your Virtual Organisation or Research Community.
-                </p>
-                <ol>
-                  <li>
-                    You shall only use the Services in a manner consistent with the
-                    purposes and limitations described above; you shall show consideration
-                    towards other users including by not causing harm to the Services; you
-                    have an obligation to collaborate in the resolution of issues arising
-                    from your use of the Services.
-                  </li>
-                  <li>
-                    You shall only use the Services for lawful purposes and not breach,
-                    attempt to breach, nor circumvent administrative or security controls.
-                  </li>
-                  <li>
-                    You shall respect intellectual property and confidentiality
-                    agreements.
-                  </li>
-                  <li>
-                    You shall protect your access credentials (e.g. passwords, private
-                    keys or multi-factor tokens); no intentional sharing is permitted.
-                  </li>
-                  <li>
-                    You shall keep your registered information correct and up to date.
-                  </li>
-                  <li>
-                    You shall promptly report known or suspected security breaches,
-                    credential compromise, or misuse to the security contact stated below;
-                    and report any compromised credentials to the relevant issuing
-                    authorities.
-                  </li>
-                  <li>
-                    Reliance on the Services shall only be to the extent specified by any
-                    applicable service level agreements listed below. Use without such
-                    agreements is at your own risk.
-                  </li>
-                  <li>
-                    Your personal data will be processed in accordance with the privacy
-                    statements referenced below.
-                  </li>
-                  <li>
-                    Your use of the Services may be restricted or suspended, for
-                    administrative, operational, or security reasons, without prior notice
-                    and without compensation.
-                  </li>
-                  <li>
-                    If you violate these rules, you may be liable for the consequences,
-                    which may include your account being suspended and a report being made
-                    to your home organisation or to law enforcement.
-                  </li>
-                </ol>
+                    {% include 'includes/messages.html' %}
 
-                <p>
-                  The administrative contact for this AUP is:
-                  <a href="mailto:svoboda@ics.muni.cz">svoboda@ics.muni.cz</a><br>
-                  The security contact for this AUP is:
-                  <a href="mailto:abuse@muni.cz">abuse@muni.cz</a><br>
-                  The privacy policy (e.g. Privacy Notice) is located at
-                  <a href="/privacy-policy">Privacy Policy</a><br>
-                </p>
-              </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <p>
+                                This Acceptable Use Policy and Conditions of Use ("AUP") defines the
+                                rules and conditions that govern your access to and use (including
+                                transmission, processing, and storage of data) of the resources and
+                                services ("Services") as granted by the Masaryk University, and the Virtual
+                                Organisation to which you belong, for the purpose of meeting the goals
+                                of Masaryk University, namely to deliver advanced computing services to support
+                                researchers, multinational projects and research infrastructures, and
+                                the goals of your Virtual Organisation or Research Community.
+                            </p>
+                            <ol>
+                                <li>
+                                    You shall only use the Services in a manner consistent with the
+                                    purposes and limitations described above; you shall show consideration
+                                    towards other users including by not causing harm to the Services; you
+                                    have an obligation to collaborate in the resolution of issues arising
+                                    from your use of the Services.
+                                </li>
+                                <li>
+                                    You shall only use the Services for lawful purposes and not breach,
+                                    attempt to breach, nor circumvent administrative or security controls.
+                                </li>
+                                <li>
+                                    You shall respect intellectual property and confidentiality
+                                    agreements.
+                                </li>
+                                <li>
+                                    You shall protect your access credentials (e.g. passwords, private
+                                    keys or multi-factor tokens); no intentional sharing is permitted.
+                                </li>
+                                <li>
+                                    You shall keep your registered information correct and up to date.
+                                </li>
+                                <li>
+                                    You shall promptly report known or suspected security breaches,
+                                    credential compromise, or misuse to the security contact stated below;
+                                    and report any compromised credentials to the relevant issuing
+                                    authorities.
+                                </li>
+                                <li>
+                                    Reliance on the Services shall only be to the extent specified by any
+                                    applicable service level agreements listed below. Use without such
+                                    agreements is at your own risk.
+                                </li>
+                                <li>
+                                    Your personal data will be processed in accordance with the privacy
+                                    statements referenced below.
+                                </li>
+                                <li>
+                                    Your use of the Services may be restricted or suspended, for
+                                    administrative, operational, or security reasons, without prior notice
+                                    and without compensation.
+                                </li>
+                                <li>
+                                    If you violate these rules, you may be liable for the consequences,
+                                    which may include your account being suspended and a report being made
+                                    to your home organisation or to law enforcement.
+                                </li>
+                            </ol>
+
+                            <p>
+                                The administrative contact for this AUP is:
+                                <a href="mailto:svoboda@ics.muni.cz">svoboda@ics.muni.cz</a><br>
+                                The security contact for this AUP is:
+                                <a href="mailto:abuse@muni.cz">abuse@muni.cz</a><br>
+                                The privacy policy (e.g. Privacy Notice) is located at
+                                <a href="/privacy-policy">Privacy Policy</a><br>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-
-          </div>
         </div>
-      </div>
 
     </section>
     <!-- /.content -->
 
-  </div>
+</div>
 
 {% endblock content %}
 
-<!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-
-  <!-- jQuery -->
-  <script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
-  <!-- jQuery UI 1.11.4 -->
-  <script src="{% static 'assets/plugins/jquery-ui/jquery-ui.min.js' %}"></script>
-  <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-  <script>
-    $.widget.bridge('uibutton', $.ui.button)
-  </script>
-  <!-- Bootstrap 4 -->
-  <script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-  <!-- ChartJS -->
-  <script src="{% static 'assets/plugins/chart.js/Chart.min.js' %}"></script>
-  <!-- Sparkline -->
-  <script src="{% static 'assets/plugins/sparklines/sparkline.js' %}"></script>
-  <!-- JQVMap -->
-  <script src="{% static 'assets/plugins/jqvmap/jquery.vmap.min.js' %}"></script>
-  <script src="{% static 'assets/plugins/jqvmap/maps/jquery.vmap.usa.js' %}"></script>
-  <!-- jQuery Knob Chart -->
-  <script src="{% static 'assets/plugins/jquery-knob/jquery.knob.min.js' %}"></script>
-  <!-- daterangepicker -->
-  <script src="{% static 'assets/plugins/moment/moment.min.js' %}"></script>
-  <script src="{% static 'assets/plugins/daterangepicker/daterangepicker.js' %}"></script>
-  <!-- Tempusdominus Bootstrap 4 -->
-  <script src="{% static 'assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
-  <!-- Summernote -->
-  <script src="{% static 'assets/plugins/summernote/summernote-bs4.min.js' %}"></script>
-  <!-- overlayScrollbars -->
-  <script src="{% static 'assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
-  <!-- AdminLTE App -->
-  <script src="{% static 'assets/js/adminlte.js' %}"></script>
-  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-  <script src="{% static 'assets/js/pages/dashboard.js' %}"></script>
-  <!-- AdminLTE for demo purposes -->
-  <script src="{% static 'assets/js/demo.js' %}"></script>
-
+<!-- Specific Page JS goes HERE  -->
+<!-- / Specific Page JS  -->
 {% endblock javascripts %}
