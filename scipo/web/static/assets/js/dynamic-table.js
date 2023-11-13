@@ -48,7 +48,7 @@ function phaseFormatter(value) {
 
 function deleteFormatter(value) {
     if (value) {
-        return `<form method="post" action="/instances/${value}"><button type="submit" class="data-table link-danger" target="_blank"><i class="fas fa-trash mr-1"></i>Delete</button></form>`;
+        return `<form method="post" action="/instances_delete/${value}"><button type="submit" class="data-table link-danger" target="_blank"><i class="fas fa-trash mr-1"></i>Delete</button></form>`
     }
 
     return ''

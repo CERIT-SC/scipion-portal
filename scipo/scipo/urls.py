@@ -24,9 +24,10 @@ urlpatterns = [
     #========
     path('', views.index, name='index'),
 
-    path('instances/', views.instances, name='instances'),
-    path('projects/',  views.projects,  name='projects'),
-    path('datasets/',  views.datasets,  name='datasets'),
+    path('instances/',                   views.instances,        name='instances'),
+    path('instances_delete/<str:name>/', views.instances_delete, name='instances_delete'),
+    path('projects/',                    views.projects,         name='projects'),
+    path('datasets/',                    views.datasets,         name='datasets'),
 
     path('privacy-policy/', views.privacy_policy, name='privacy-policy'),
     path('terms-of-use/',   views.terms_of_use,   name='terms-of-use'),
