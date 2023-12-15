@@ -59,6 +59,19 @@ def instances(request):
         })
 
 @login_required(login_url="/oidc/authenticate/")
+def instances_delete(request, name):
+    request.method = "DELETE"
+    response = api_instances(request, name)
+    if response.status_code == 200:
+        logger.info("Instance deletion was successful.")
+        messages.success(request, "Instance deletion was successful.")
+        return HttpResponseRedirect("/instances")
+
+    logger.error("Instance deletion failed.")
+    messages.error(request, "Instance deletion failed.")
+    return HttpResponseRedirect("/instances")
+
+@login_required(login_url="/oidc/authenticate/")
 def projects(request):
     site_labels = {
         'header': 'Projects',
