@@ -19,9 +19,12 @@ logger = logging.getLogger('django')
 
 @login_required(login_url="/oidc/authenticate/")
 def api_spaces(request):
-    if   request.method == "GET":    return api_spaces_get(request)
+    if   request.method == "GET":
+        spaces = api_spaces_get(request)
+        j = json.loads(json.dumps(spaces))
+        return JsonResponse(j, safe=False)
     else:
-        HttpResponse(status=405) # 405 Method Not Allowed
+        return HttpResponse(status=405) # 405 Method Not Allowed
 
 @login_required(login_url="/oidc/authenticate/")
 def api_instances(request, name = None):
@@ -47,8 +50,7 @@ def api_spaces_get(request):
                 'space_id': space_data['spaceId']
             })
 
-    j = json.loads(json.dumps(spaces))
-    return JsonResponse(j, safe=False)
+    return spaces
 
 def api_instances_get(request, name):
     # Get info about apps from the helm
@@ -65,14 +67,23 @@ def api_instances_get(request, name):
             continue
 
         instance_info = json.loads(instance_info)
-        chart["link"]   =          instance_info.get("link", "")
-        chart["health"] =          instance_info.get("health", "")
-        chart["friendly_phase"]  = instance_info.get("friendly_phase", "")
+        chart["link"]           = instance_info.get("link", "")
+        chart["health"]         = instance_info.get("health", "")
+        chart["friendly_phase"] = instance_info.get("friendly_phase", "")
     return JsonResponse(j, safe=False)
 
 def api_instances_post(request, name):
     # Extract parameters from the request and save
     instance_name = request.POST.get('instance_name')
+
+    # Get Space IDs from their names
+    dataset_space_name = request.POST.get('od_dataset_space_name')
+    project_space_name = request.POST.get('od_project_space_name')
+    for space in api_spaces_get(request):
+        if dataset_space_name == space['name']:
+            dataset_space_id = space['space_id']
+        if project_space_name == space['name']:
+            project_space_id = space['space_id']
 
     helm_vars = {
         'instance.releaseChannel': 'dev',
@@ -87,12 +98,12 @@ def api_instances_post(request, name):
         'vnc.vncPassword': secrets.token_hex(16),
         'od.dataset.host':         request.POST.get('od_dataset_host'),
         'od.dataset.token':        request.POST.get('od_dataset_token'),
-        'od.dataset.spaceId':      request.POST.get('od_dataset_space_id'),
-        'od.dataset.spaceIdShort': request.POST.get('od_dataset_space_id', '')[0:8],
+        'od.dataset.spaceId':      dataset_space_id,
+        'od.dataset.spaceIdShort': dataset_space_id[0:8],
         'od.project.host':         request.POST.get('od_project_host'),
         'od.project.token':        request.POST.get('od_project_token'),
-        'od.project.spaceId':      request.POST.get('od_project_space_id'),
-        'od.project.spaceIdShort': request.POST.get('od_project_space_id', '')[0:8]
+        'od.project.spaceId':      project_space_id,
+        'od.project.spaceIdShort': project_space_id[0:8]
     }
 
     # Validate the params
