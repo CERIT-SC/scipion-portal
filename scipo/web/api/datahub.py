@@ -37,6 +37,8 @@ class Datahubctl:
         return result
 
     def get_space(self, oidc_token, space_id):
+        # TODO it returns info about cached spaces without token verification!
+
         # Check the cache entries
         for cs in self.cached_spaces:
             if cs.id != space_id:
