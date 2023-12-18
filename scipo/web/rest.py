@@ -2,13 +2,9 @@ import json
 import logging
 import secrets
 
-from django.shortcuts import render
 from django.http import HttpResponse
-from django import template
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.template import loader
-from django.urls import reverse
+from django.http import HttpResponse, JsonResponse
 
 from .api import kubectl, helmctl, datahubctl
 from .api.helm import Helmctl

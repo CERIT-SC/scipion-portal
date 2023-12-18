@@ -1,24 +1,14 @@
-import json
-import logging
-import secrets
 
-from django.shortcuts import render
+import logging
+
 from django.http import HttpResponse
-from django import template
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import AnonymousUser
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, HttpRequest
-from django.template import loader
-from django.urls import reverse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 
 from .forms import InstancesForm
 from .utils import scipo_render
-
-from .api import kubectl, helmctl
-from .api.datahub import Datahubctl
-from .api.helm import Helmctl
-from .rest import api_instances, api_spaces, api_spaces_get
+from .rest import api_instances, api_spaces_get
 
 
 logger = logging.getLogger('django')

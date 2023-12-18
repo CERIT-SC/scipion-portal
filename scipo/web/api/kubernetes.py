@@ -4,7 +4,7 @@ import os
 import hashlib
 import requests
 
-from kubernetes import client, config
+from kubernetes import client
 
 
 logger = logging.getLogger('django')
