@@ -16,7 +16,7 @@ from .forms import InstancesForm
 from .utils import scipo_render
 
 from .api import kubectl, helmctl
-from .api.datahub import Datahub
+from .api.datahub import Datahubctl
 from .api.helm import Helmctl
 from .rest import api_instances, api_spaces, api_spaces_get
 

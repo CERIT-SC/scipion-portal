@@ -10,8 +10,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.template import loader
 from django.urls import reverse
 
-from .api import kubectl, helmctl
-from .api.datahub import Datahub
+from .api import kubectl, helmctl, datahubctl
 from .api.helm import Helmctl
 
 
@@ -38,12 +37,12 @@ def api_spaces_get(request):
     # OIDC token received from authentication
     oidc_token = request.session.get('oidc_access_token')
 
-    data_spaces = Datahub.list_spaces(oidc_token)
+    data_spaces = datahubctl.list_spaces(oidc_token)
 
     spaces = list()
     if data_spaces:
         for space_id in data_spaces['spaces']:
-            space_data = Datahub.get_space(oidc_token, space_id)
+            space_data = datahubctl.get_space(oidc_token, space_id)
 
             spaces.append({
                 'name': '' if not space_data else space_data['name'],
