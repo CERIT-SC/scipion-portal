@@ -77,6 +77,8 @@ def api_instances_get(request, name):
     return JsonResponse(j, safe=False)
 
 def api_instances_post(request, name):
+    oidc_token = request.session.get('oidc_access_token')
+
     # Extract parameters from the request and save
     instance_name = request.POST.get('instance_name')
 
@@ -91,6 +93,11 @@ def api_instances_post(request, name):
             project_space_id = space['space_id']
             project_space_provider_url = space['provider_url']
 
+    # Generate temporary access token for mounting the Onedata spaces
+    access_token = datahubctl.generate_temp_token(oidc_token)
+    if not access_token:
+        return HttpResponse(status=500)
+
     helm_vars = {
         'instance.releaseChannel': 'dev',
         'instance.prefix': 'scipo',
@@ -103,11 +110,11 @@ def api_instances_post(request, name):
         'vnc.useVncClient': 'false',
         'vnc.vncPassword': secrets.token_hex(16),
         'od.dataset.host':         dataset_space_provider_url,
-        'od.dataset.token':        request.POST.get('od_dataset_token'),
+        'od.dataset.token':        access_token,
         'od.dataset.spaceId':      dataset_space_id,
         'od.dataset.spaceIdShort': dataset_space_id[0:8],
         'od.project.host':         project_space_provider_url,
-        'od.project.token':        request.POST.get('od_project_token'),
+        'od.project.token':        access_token,
         'od.project.spaceId':      project_space_id,
         'od.project.spaceIdShort': project_space_id[0:8]
     }
