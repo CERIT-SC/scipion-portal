@@ -40,10 +40,19 @@ def api_spaces_get(request):
         for space_id in data_spaces['spaces']:
             space_data = datahubctl.get_space(oidc_token, space_id)
 
-            spaces.append({
-                'name': '' if not space_data else space_data['name'],
-                'space_id': space_data['spaceId']
-            })
+            try:
+                provider_id = list(space_data['providers'].keys())[0]
+
+                provider_data = datahubctl.get_provider(oidc_token, provider_id)
+
+                entry = {
+                    'name': '' if not space_data else space_data['name'],
+                    'space_id': space_data['spaceId'],
+                    'provider_url': provider_data['domain']
+                }
+                spaces.append(entry)
+            except:
+                logger.warning(f"Space with ID {space_id} does not contain any provider or other data are missing.")
 
     return spaces
 
@@ -77,8 +86,10 @@ def api_instances_post(request, name):
     for space in api_spaces_get(request):
         if dataset_space_name == space['name']:
             dataset_space_id = space['space_id']
+            dataset_space_provider_url = space['provider_url']
         if project_space_name == space['name']:
             project_space_id = space['space_id']
+            project_space_provider_url = space['provider_url']
 
     helm_vars = {
         'instance.releaseChannel': 'dev',
@@ -91,11 +102,11 @@ def api_instances_post(request, name):
         'instance.keepVolumes': 'true',
         'vnc.useVncClient': 'false',
         'vnc.vncPassword': secrets.token_hex(16),
-        'od.dataset.host':         request.POST.get('od_dataset_host'),
+        'od.dataset.host':         dataset_space_provider_url,
         'od.dataset.token':        request.POST.get('od_dataset_token'),
         'od.dataset.spaceId':      dataset_space_id,
         'od.dataset.spaceIdShort': dataset_space_id[0:8],
-        'od.project.host':         request.POST.get('od_project_host'),
+        'od.project.host':         project_space_provider_url,
         'od.project.token':        request.POST.get('od_project_token'),
         'od.project.spaceId':      project_space_id,
         'od.project.spaceIdShort': project_space_id[0:8]

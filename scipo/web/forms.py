@@ -10,9 +10,8 @@ class ScipoTextInput(forms.TextInput):
 
 class InstancesForm(forms.Form):
     instance_name       = forms.CharField(required=True, widget=ScipoTextInput(classes="form-control"), label="Instance name")
-    od_dataset_host     = forms.CharField(required=True, widget=ScipoTextInput(classes="form-control"), label="Dataset host")
-    od_dataset_token    = forms.CharField(required=True, widget=ScipoTextInput(classes="form-control"), label="Dataset token")
 
+    od_dataset_token    = forms.CharField(required=True, widget=ScipoTextInput(classes="form-control"), label="Dataset token")
     od_dataset_space_name = forms.TypedChoiceField(
         required=True,
         widget=forms.Select(attrs={'class': 'form-control'}),
@@ -21,9 +20,7 @@ class InstancesForm(forms.Form):
         coerce=str
     )
 
-    od_project_host     = forms.CharField(required=True, widget=ScipoTextInput(classes="form-control"), label="Project host")
     od_project_token    = forms.CharField(required=True, widget=ScipoTextInput(classes="form-control"), label="Project token")
-
     od_project_space_name = forms.TypedChoiceField(
         required=True,
         widget=forms.Select(attrs={'class': 'form-control'}),

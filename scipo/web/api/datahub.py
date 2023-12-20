@@ -18,6 +18,7 @@ class Datahubctl:
             self.object = object
 
     cached_spaces = list()
+    cached_providers = list()
 
     def _make_request(self, endpoint: str, oidc_token: str):
         headers = {'Authorization': f'Bearer egi:{oidc_token}'}
@@ -56,13 +57,46 @@ class Datahubctl:
         # Entry not found in cache or alredy expired
         result = self._make_request(f'/api/v3/onezone/spaces/{space_id}', oidc_token)
         if not result:
-            logger.error("Obtaining list of spaces failed.")
+            logger.error(f"Obtaining info about space ID {space_id} failed.")
 
         # Save entry into the cache
         self.cached_spaces.append(
             self.CacheEntry(
                 datetime.now() + timedelta(hours=1),
                 space_id,
+                result
+            )
+        )
+
+        return result
+
+    def get_provider(self, oidc_token, provider_id):
+        # TODO it returns info about cached providers without token verification!
+
+        # Check the cache entries
+        for cs in self.cached_providers:
+            if cs.id != provider_id:
+                continue
+
+            # provider_id found in cache
+            if cs.expiration > datetime.now():
+                # Entry still actual > return content
+                return cs.object
+
+            # Entry expired > remove from cache
+            self.cached_providers.remove(cs)
+            break
+
+        # Entry not found in cache or alredy expired
+        result = self._make_request(f'/api/v3/onezone/providers/{provider_id}', oidc_token)
+        if not result:
+            logger.error(f"Obtaining info about provider ID {provider_id} failed.")
+
+        # Save entry into the cache
+        self.cached_providers.append(
+            self.CacheEntry(
+                datetime.now() + timedelta(hours=1),
+                provider_id,
                 result
             )
         )
