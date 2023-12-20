@@ -74,8 +74,13 @@ def api_instances_get(request, name):
 
         instance_info = json.loads(instance_info)
         chart["link"]           = instance_info.get("link", "")
-        chart["health"]         = instance_info.get("health", "")
-        chart["friendly_phase"] = instance_info.get("friendly_phase", "")
+
+        # Combine health and friendly_phase together for simple info about instance
+        health = instance_info.get("health", "")
+        if health == "ok":
+            chart["status"] = instance_info.get("friendly_phase", "")
+        else:
+            chart["status"] = health
 
         chart["dataset_space_name"] = "unknown"
         chart["project_space_name"] = "unknown"

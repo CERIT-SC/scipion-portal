@@ -18,29 +18,27 @@ function linkFormatter(value) {
     return ''
 }
 
-function healthFormatter(value) {
-    if (value) {
-        if (value === "ok") {
-            return `<div class="health-success"><i class="fas fa-check mr-1"></i>${value}</div>`;
-        }
-
-        return `<div class="health-danger"><i class="fas fa-ban mr-1"></i>${value}</div>`
-    }
-
-    return `<div class="health-warning"><i class="fas fa-question mr-1"></i>unknown</div>`
-}
-
-function phaseFormatter(value) {
+function statusFormatter(value) {
     if (value) {
         if (value === "stage-in") {
-            return `<div><i class="fas fa-download mr-1"></i>${value}</div>`;
+            return `<div class="health-success"><i class="fas fa-download mr-1"></i>${value}</div>`;
         } else if (value === "running") {
-            return `<div><i class="fas fa-check mr-1"></i>${value}</div>`;
+            return `<div class="health-success"><i class="fas fa-check mr-1"></i>${value}</div>`;
         } else if (value === "stage-out") {
-            return `<div><i class="fas fa-upload mr-1"></i>${value}</div>`;
-        } else if (value === "end") {
-            return `<div><i class="fas fa-door-open mr-1"></i>${value}</div>`;
+            return `<div class="health-success"><i class="fas fa-upload mr-1"></i>${value}</div>`;
+        } else if (value === "finished") {
+            return `<div class="health-success"><i class="fas fa-door-open mr-1"></i>${value}</div>`;
+        } else if (value == "failed_mount") {
+            return `<div class="health-danger"><i class="fas fa-ban mr-1"></i>${value}</div>`
+        } else if (value == "project_locked") {
+            return `<div class="health-danger"><i class="fas fa-ban mr-1"></i>${value}</div>`
+        } else if (value == "lock_error") {
+            return `<div class="health-danger"><i class="fas fa-ban mr-1"></i>${value}</div>`
+        } else if (value == "sync_error") {
+            return `<div class="health-danger"><i class="fas fa-ban mr-1"></i>${value}</div>`
         }
+
+        return `<div class="health-warning"><i class="fas fa-question mr-1"></i>unknown</div>`
     }
 
     return `<div><i class="fas fa-question mr-1"></i>unknown</div>`
