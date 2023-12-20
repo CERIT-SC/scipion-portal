@@ -57,6 +57,8 @@ def api_spaces_get(request):
     return spaces
 
 def api_instances_get(request, name):
+    oidc_token = request.session.get('oidc_access_token')
+
     # Get info about apps from the helm
     charts = helmctl.list()
 
@@ -74,6 +76,21 @@ def api_instances_get(request, name):
         chart["link"]           = instance_info.get("link", "")
         chart["health"]         = instance_info.get("health", "")
         chart["friendly_phase"] = instance_info.get("friendly_phase", "")
+
+        chart["dataset_space_name"] = "unknown"
+        chart["project_space_name"] = "unknown"
+        try:
+            chart["dataset_space_name"] = datahubctl.get_space(
+                oidc_token = oidc_token,
+                space_id = instance_info.get("dataset_spaceid", "")
+            )['name']
+            chart["project_space_name"] = datahubctl.get_space(
+                oidc_token = oidc_token,
+                space_id = instance_info.get("project_spaceid", "")
+            )['name']
+        except:
+            logger.warning(f"Obtaining info about used spaces by instance {chart['name']} failed.")
+
     return JsonResponse(j, safe=False)
 
 def api_instances_post(request, name):
