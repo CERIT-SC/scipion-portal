@@ -73,7 +73,7 @@ def api_instances_get(request, name):
             continue
 
         instance_info = json.loads(instance_info)
-        chart["link"]           = instance_info.get("link", "")
+        chart["link"] = instance_info.get("link", "")
 
         # Combine health and friendly_phase together for simple info about instance
         health = instance_info.get("health", "")
