@@ -13,41 +13,24 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
-        <div class="user-panel mt-3 pb-3 mb-3">
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+
             {% if user.is_authenticated %}
-            <div class="d-flex">
-                <div class="image">
-                    <i class="custom-user-img-green fas fa-user"></i>
-                </div>
-                <div class="info">
-                    {{ user.email }}
-                </div>
+            <div class="image">
+                <i class="custom-user-img-green fas fa-user"></i>
             </div>
-            <!--
-        <div>
-          <form action="{% url 'oidc_logout' %}" method="post">
-            {% csrf_token %}
-            <input class="btn btn-danger" type="submit" value="Logout">
-          </form>
-        </div>
-        -->
+            <div class="info">
+                {{ user.email }}
+            </div>
             {% else %}
-            <div class="d-flex">
-                <div class="image">
-                    <i class="custom-user-img-gray fas fa-user"></i>
-                </div>
-                <div class="info">
-                    Not logged in
-                </div>
+            <div class="image">
+                <i class="custom-user-img-gray fas fa-user"></i>
             </div>
-            <!--
-        <div>
-          <a class="d-block" href="{% url 'oidc_authentication_init' %}">
-            Login
-          </a>
-        </div>
-        -->
+            <div class="info">
+                Not logged in
+            </div>
             {% endif %}
+
         </div>
 
 
