@@ -1,6 +1,8 @@
 
-from .kubernetes import Kubectl, KubeSaAutoConfig
+from .datahub import Datahubctl
 from .helm import Helmctl
+from .kubernetes import Kubectl, KubeSaAutoConfig
 
-kubectl = Kubectl(KubeSaAutoConfig())
+datahubctl = Datahubctl()
 helmctl = Helmctl()
+kubectl = Kubectl(KubeSaAutoConfig())

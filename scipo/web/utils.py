@@ -1,6 +1,24 @@
 
+import re
+
 from django.shortcuts import render
 from django.contrib import messages
+
+def parse_number_with_unit(input_string):
+    # Define a regular expression pattern to match the numeric value and unit
+    # E.g. "256Gi"
+    pattern = re.compile(r'(\d+)([A-Za-z]*)')
+    match = pattern.search(input_string)
+
+    if match:
+        # Extract the numeric value and unit from the match groups
+        value = int(match.group(1))
+        unit = match.group(2)
+
+        return {"value": value, "unit": unit}
+    else:
+        return {}
+
 
 def _messages_payload(request):
     """

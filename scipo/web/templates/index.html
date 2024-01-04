@@ -56,7 +56,6 @@
                     </div>
 
                     {% if user.is_authenticated %}
-                    <!--<p>Current user: {{ user.email }}</p>-->
                     <form action="{% url 'oidc_logout' %}" method="post">
                         {% csrf_token %}
                         <input class="btn btn-danger" type="submit" value="Logout">
@@ -78,23 +77,25 @@
                         </div>
                     </div>
 
-                    <!--
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">
-                  <i class="fas fa-chart-pie mr-1"></i>
-                  Tokens
-                </h3>
-              </div>
-              <div class="card-body">
-                  OIDC ID token: <br />
-                  {{ request.session.oidc_id_token }}<br /><br />
-
-                  OIDC Access token: <br />
-                  {{ request.session.oidc_access_token }}<br /><br />
-              </div>
-            </div>
-            -->
+                    <!-- Canvas for the doughnut chart showing used resources and quota on Kubernetes -->
+                    {% if user.is_authenticated %}
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-microchip mr-1"></i>
+                                Resources and quota
+                            </h3>
+                        </div><!-- /.card-header -->
+                        <div class="card-body row">
+                            <div class="col-md-6">
+                                <canvas id="resourceChartCpu" width="180" height="180"></canvas>
+                            </div>
+                            <div class="col-md-6">
+                                <canvas id="resourceChartRam" width="180" height="180"></canvas>
+                            </div>
+                        </div><!-- /.card-body -->
+                    </div>
+                    {% endif %}
 
                 </div>
             </div>
@@ -109,5 +110,6 @@
 
 {% block javascripts %}
 <!-- Specific Page JS goes HERE  -->
+<script src="{% static 'assets/js/dynamic-chart.js' %}"></script>
 <!-- / Specific Page JS  -->
 {% endblock javascripts %}

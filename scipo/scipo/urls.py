@@ -44,4 +44,6 @@ urlpatterns = [
     path('api/spaces/',               rest.api_spaces,    name='api_spaces'),
     path('api/instances/',            rest.api_instances, name='api_instances'),
     path('api/instances/<str:name>/', rest.api_instances, name='api_instances'),
+    path('api/resources',             rest.api_resources, name='api_resources'),
+
 ]

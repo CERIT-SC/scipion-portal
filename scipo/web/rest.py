@@ -2,16 +2,11 @@ import json
 import logging
 import secrets
 
-from django.shortcuts import render
 from django.http import HttpResponse
-from django import template
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.template import loader
-from django.urls import reverse
+from django.http import HttpResponse, JsonResponse
 
-from .api import kubectl, helmctl
-from .api.datahub import Datahub
+from .api import kubectl, helmctl, datahubctl
 from .api.helm import Helmctl
 
 
@@ -19,9 +14,12 @@ logger = logging.getLogger('django')
 
 @login_required(login_url="/oidc/authenticate/")
 def api_spaces(request):
-    if   request.method == "GET":    return api_spaces_get(request)
+    if request.method == "GET":
+        spaces = api_spaces_get(request)
+        j = json.loads(json.dumps(spaces))
+        return JsonResponse(j, safe=False)
     else:
-        HttpResponse(status=405) # 405 Method Not Allowed
+        return HttpResponse(status=405) # 405 Method Not Allowed
 
 @login_required(login_url="/oidc/authenticate/")
 def api_instances(request, name = None):
@@ -31,26 +29,44 @@ def api_instances(request, name = None):
     else:
         return HttpResponse(status=405) # 405 Method Not Allowed
 
+@login_required(login_url="/oidc/authenticate/")
+def api_resources(request):
+    if request.method == "GET":
+        result = kubectl.get_quota_info()
+        return JsonResponse(result, safe=False)
+    else:
+        return HttpResponse(status=405) # 405 Method Not Allowed
+
 def api_spaces_get(request):
     # OIDC token received from authentication
     oidc_token = request.session.get('oidc_access_token')
 
-    data_spaces = Datahub.list_spaces(oidc_token)
+    data_spaces = datahubctl.list_spaces(oidc_token)
 
     spaces = list()
     if data_spaces:
         for space_id in data_spaces['spaces']:
-            space_data = Datahub.get_space(oidc_token, space_id)
+            space_data = datahubctl.get_space(oidc_token, space_id)
 
-            spaces.append({
-                'name': '' if not space_data else space_data['name'],
-                'space_id': space_data['spaceId']
-            })
+            try:
+                provider_id = list(space_data['providers'].keys())[0]
 
-    j = json.loads(json.dumps(spaces))
-    return JsonResponse(j, safe=False)
+                provider_data = datahubctl.get_provider(oidc_token, provider_id)
+
+                entry = {
+                    'name': '' if not space_data else space_data['name'],
+                    'space_id': space_data['spaceId'],
+                    'provider_url': provider_data['domain']
+                }
+                spaces.append(entry)
+            except:
+                logger.warning(f"Space with ID {space_id} does not contain any provider or other data are missing.")
+
+    return spaces
 
 def api_instances_get(request, name):
+    oidc_token = request.session.get('oidc_access_token')
+
     # Get info about apps from the helm
     charts = helmctl.list()
 
@@ -65,14 +81,52 @@ def api_instances_get(request, name):
             continue
 
         instance_info = json.loads(instance_info)
-        chart["link"]   =          instance_info.get("link", "")
-        chart["health"] =          instance_info.get("health", "")
-        chart["friendly_phase"]  = instance_info.get("friendly_phase", "")
+        chart["link"] = instance_info.get("link", "")
+
+        # Combine health and friendly_phase together for simple info about instance
+        health = instance_info.get("health", "")
+        if health == "ok":
+            chart["status"] = instance_info.get("friendly_phase", "")
+        else:
+            chart["status"] = health
+
+        chart["dataset_space_name"] = "unknown"
+        chart["project_space_name"] = "unknown"
+        try:
+            chart["dataset_space_name"] = datahubctl.get_space(
+                oidc_token = oidc_token,
+                space_id = instance_info.get("dataset_spaceid", "")
+            )['name']
+            chart["project_space_name"] = datahubctl.get_space(
+                oidc_token = oidc_token,
+                space_id = instance_info.get("project_spaceid", "")
+            )['name']
+        except:
+            logger.warning(f"Obtaining info about used spaces by instance {chart['name']} failed.")
+
     return JsonResponse(j, safe=False)
 
 def api_instances_post(request, name):
+    oidc_token = request.session.get('oidc_access_token')
+
     # Extract parameters from the request and save
     instance_name = request.POST.get('instance_name')
+
+    # Get Space IDs from their names
+    dataset_space_name = request.POST.get('od_dataset_space_name')
+    project_space_name = request.POST.get('od_project_space_name')
+    for space in api_spaces_get(request):
+        if dataset_space_name == space['name']:
+            dataset_space_id = space['space_id']
+            dataset_space_provider_url = space['provider_url']
+        if project_space_name == space['name']:
+            project_space_id = space['space_id']
+            project_space_provider_url = space['provider_url']
+
+    # Generate temporary access token for mounting the Onedata spaces
+    access_token = datahubctl.generate_temp_token(oidc_token)
+    if not access_token:
+        return HttpResponse(status=500)
 
     helm_vars = {
         'instance.releaseChannel': 'dev',
@@ -85,14 +139,14 @@ def api_instances_post(request, name):
         'instance.keepVolumes': 'true',
         'vnc.useVncClient': 'false',
         'vnc.vncPassword': secrets.token_hex(16),
-        'od.dataset.host':         request.POST.get('od_dataset_host'),
-        'od.dataset.token':        request.POST.get('od_dataset_token'),
-        'od.dataset.spaceId':      request.POST.get('od_dataset_space_id'),
-        'od.dataset.spaceIdShort': request.POST.get('od_dataset_space_id', '')[0:8],
-        'od.project.host':         request.POST.get('od_project_host'),
-        'od.project.token':        request.POST.get('od_project_token'),
-        'od.project.spaceId':      request.POST.get('od_project_space_id'),
-        'od.project.spaceIdShort': request.POST.get('od_project_space_id', '')[0:8]
+        'od.dataset.host':         dataset_space_provider_url,
+        'od.dataset.token':        access_token,
+        'od.dataset.spaceId':      dataset_space_id,
+        'od.dataset.spaceIdShort': dataset_space_id[0:8],
+        'od.project.host':         project_space_provider_url,
+        'od.project.token':        access_token,
+        'od.project.spaceId':      project_space_id,
+        'od.project.spaceIdShort': project_space_id[0:8]
     }
 
     # Validate the params

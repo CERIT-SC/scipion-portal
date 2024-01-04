@@ -18,33 +18,45 @@ function linkFormatter(value) {
     return ''
 }
 
-function healthFormatter(value) {
-    if (value) {
-        if (value === "ok") {
-            return `<div class="health-success"><i class="fas fa-check mr-1"></i>${value}</div>`;
-        }
+function statusFormatter(value) {
+    let iconClass, statusText, healthClass;
 
-        return `<div class="health-danger"><i class="fas fa-ban mr-1"></i>${value}</div>`
+    statusText = value;
+
+    switch (value) {
+        case "stage-in":
+            iconClass = "fas fa-download";
+            healthClass = "health-success";
+            break;
+        case "running":
+            iconClass = "fas fa-check";
+            healthClass = "health-success";
+            break;
+        case "stage-out":
+            iconClass = "fas fa-upload";
+            healthClass = "health-success";
+            break;
+        case "finished":
+            iconClass = "fas fa-door-open";
+            healthClass = "health-success";
+            break;
+        case "failed_mount":
+        case "project_locked":
+        case "lock_error":
+        case "sync_error":
+        case "degraded":
+            iconClass = "fas fa-ban";
+            healthClass = "health-danger";
+            break;
+        default:
+            iconClass = "fas fa-question";
+            healthClass = "health-warning";
+            statusText = "unknown";
     }
 
-    return `<div class="health-warning"><i class="fas fa-question mr-1"></i>unknown</div>`
+    return `<div class="${healthClass}"><i class="${iconClass} mr-1"></i>${statusText}</div>`;
 }
 
-function phaseFormatter(value) {
-    if (value) {
-        if (value === "stage-in") {
-            return `<div><i class="fas fa-download mr-1"></i>${value}</div>`;
-        } else if (value === "running") {
-            return `<div><i class="fas fa-check mr-1"></i>${value}</div>`;
-        } else if (value === "stage-out") {
-            return `<div><i class="fas fa-upload mr-1"></i>${value}</div>`;
-        } else if (value === "end") {
-            return `<div><i class="fas fa-door-open mr-1"></i>${value}</div>`;
-        }
-    }
-
-    return `<div><i class="fas fa-question mr-1"></i>unknown</div>`
-}
 
 function deleteFormatter(value) {
     if (value) {
