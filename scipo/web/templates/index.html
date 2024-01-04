@@ -78,6 +78,26 @@
                         </div>
                     </div>
 
+                    <!-- Canvas for the doughnut chart showing used resources and quota on Kubernetes -->
+                    {% if user.is_authenticated %}
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-microchip mr-1"></i>
+                                Resources and quota
+                            </h3>
+                        </div><!-- /.card-header -->
+                        <div class="card-body row">
+                            <div class="col-md-6">
+                                <canvas id="resourceChartCpu" width="180" height="180"></canvas>
+                            </div>
+                            <div class="col-md-6">
+                                <canvas id="resourceChartRam" width="180" height="180"></canvas>
+                            </div>
+                        </div><!-- /.card-body -->
+                    </div>
+                    {% endif %}
+
                     <!--
             <div class="card">
               <div class="card-header">
@@ -109,5 +129,6 @@
 
 {% block javascripts %}
 <!-- Specific Page JS goes HERE  -->
+<script src="{% static 'assets/js/dynamic-chart.js' %}"></script>
 <!-- / Specific Page JS  -->
 {% endblock javascripts %}

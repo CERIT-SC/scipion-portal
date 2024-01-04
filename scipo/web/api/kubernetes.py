@@ -6,6 +6,8 @@ import requests
 
 from kubernetes import client
 
+from ..utils import parse_number_with_unit
+
 
 logger = logging.getLogger('django')
 
@@ -90,6 +92,38 @@ class Kubectl:
             return r.text
         except:
             return None
+
+    def get_quota_info(self):
+        # List all ResourceQuotas
+        quotas = self.api_core.list_namespaced_resource_quota(self.ns_name).items
+
+        if len(quotas) != 1:
+            logger.error(f"There are more ResourceQuotas than expected.")
+            return {}
+
+        # Get info about specific ResourceQuota
+        resource_quota = self.api_core.read_namespaced_resource_quota(quotas[0].metadata.name, self.ns_name)
+
+        # Extract used and hard limits from the status field
+        res_used = resource_quota.status.used or {}
+        res_quota = resource_quota.spec.hard or {}
+
+        def extract_limits(resource_info):
+            result = dict()
+            for resource, value in resource_info.items():
+                if resource.startswith("limits."):
+                    new_res_name = resource.replace("limits.", "")
+                    result[new_res_name] = parse_number_with_unit(value)
+            return result
+
+        # Extract only "limits", and exclude "requests"
+        res_used_limits = extract_limits(res_used)
+        res_quota_limits = extract_limits(res_quota)
+
+        return {
+            'resources_used': res_used_limits,
+            'resources_quota': res_quota_limits,
+        }
 
     def create_namespace(self, username):
         ns_name = self._get_child_ns_name(username)

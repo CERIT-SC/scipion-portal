@@ -14,7 +14,7 @@ logger = logging.getLogger('django')
 
 @login_required(login_url="/oidc/authenticate/")
 def api_spaces(request):
-    if   request.method == "GET":
+    if request.method == "GET":
         spaces = api_spaces_get(request)
         j = json.loads(json.dumps(spaces))
         return JsonResponse(j, safe=False)
@@ -26,6 +26,14 @@ def api_instances(request, name = None):
     if   request.method == "GET":    return api_instances_get(request, name)
     elif request.method == "POST":   return api_instances_post(request, name)
     elif request.method == "DELETE": return api_instances_delete(request, name)
+    else:
+        return HttpResponse(status=405) # 405 Method Not Allowed
+
+@login_required(login_url="/oidc/authenticate/")
+def api_resources(request):
+    if request.method == "GET":
+        result = kubectl.get_quota_info()
+        return JsonResponse(result, safe=False)
     else:
         return HttpResponse(status=405) # 405 Method Not Allowed
 
