@@ -56,7 +56,6 @@
                     </div>
 
                     {% if user.is_authenticated %}
-                    <!--<p>Current user: {{ user.email }}</p>-->
                     <form action="{% url 'oidc_logout' %}" method="post">
                         {% csrf_token %}
                         <input class="btn btn-danger" type="submit" value="Logout">
@@ -97,24 +96,6 @@
                         </div><!-- /.card-body -->
                     </div>
                     {% endif %}
-
-                    <!--
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">
-                  <i class="fas fa-chart-pie mr-1"></i>
-                  Tokens
-                </h3>
-              </div>
-              <div class="card-body">
-                  OIDC ID token: <br />
-                  {{ request.session.oidc_id_token }}<br /><br />
-
-                  OIDC Access token: <br />
-                  {{ request.session.oidc_access_token }}<br /><br />
-              </div>
-            </div>
-            -->
 
                 </div>
             </div>
